@@ -1,0 +1,31 @@
+﻿<Window x:Class="BSc_Thesis.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BSc_Thesis"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label HorizontalAlignment="Center" >Odbieranie tekstu</Label>
+        <Label HorizontalAlignment="Center"  Grid.Column="1">Odbieranie Dźwięku</Label>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <TextBox Name="textBox" Grid.Row="0" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Content}" VerticalAlignment="Top" Width="120"/>
+            <Button Name="ChangeComButton" Grid.Row="1" Click="ChangeComListening">Turn on Listening</Button>
+            <ComboBox Name="Combo" Grid.Row="2" ItemsSource="{Binding itemsCom}"/>
+        </Grid>
+    </Grid>
+</Window>
