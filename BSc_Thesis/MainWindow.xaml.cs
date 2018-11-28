@@ -1,4 +1,5 @@
 ﻿using BSc_Thesis.Models;
+using BSc_Thesis.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -24,7 +25,7 @@ namespace BSc_Thesis
     public partial class MainWindow : Window
     {
         List<Port> ports;
-
+        SerialPort SP1 = new SerialPort();
         public MainWindow()
         {
             InitializeComponent();
@@ -45,22 +46,42 @@ namespace BSc_Thesis
                          from p in np.DefaultIfEmpty()
                          select new Port() { Name = n, Desc = p != null ? p["Description"].ToString() : "Brak Opisu" }).ToList();
             }
-        }
 
-        private void ChangeComListening(object sender, RoutedEventArgs e) {
-            try {
-                SerialPort SP1 = new SerialPort();
-                SP1.PortName = "COM1";
-                SP1.BaudRate = 250;
+        }
+        private void ChangeComListening(object sender, RoutedEventArgs e)
+       {
+            try
+            {
+                SP1.PortName = "COM3";
+                SP1.BaudRate = 9600;
                 SP1.Parity = Parity.None;
                 SP1.DataBits = 8;
                 SP1.StopBits = StopBits.One;
                 SP1.Handshake = Handshake.RequestToSend;
                 SP1.DtrEnable = true;
-
-            } catch {
-
+                SP1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                SP1.Open();
             }
+            catch (Exception e2)
+            {
+                textBox.Text = e2.Message;
+            }
+
         }
+
+        private void addText(string data)
+        {
+            textBox.Text += data;
+        }
+
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort)sender;
+            string indata = sp.ReadExisting();
+            //Console.WriteLine("Data Received:");
+            //Console.Write(indata);
+            Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => textBox.Text += indata ));
+        }
+
     }
 }

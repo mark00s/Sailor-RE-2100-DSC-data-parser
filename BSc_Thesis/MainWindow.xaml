@@ -23,7 +23,7 @@
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <TextBox Name="textBox" Grid.Row="0" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Content}" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="textBox" Grid.Row="0" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
             <Button Name="ChangeComButton" Grid.Row="1" Click="ChangeComListening">Turn on Listening</Button>
             <ComboBox Name="Combo" Grid.Row="2" ItemsSource="{Binding itemsCom}"/>
         </Grid>
