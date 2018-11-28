@@ -2,10 +2,12 @@
 using BSc_Thesis.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Management;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,8 +26,10 @@ namespace BSc_Thesis
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Port> ports;
+        ObservableCollection<Port> ports;
         SerialPort SP1 = new SerialPort();
+        static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,14 +45,14 @@ namespace BSc_Thesis
             {
                 string[] portnames = SerialPort.GetPortNames();
                 var x = searcher.Get().Cast<ManagementBaseObject>().ToList();
-                ports = (from n in portnames
+                ports = new ObservableCollection<Port>((from n in portnames
                          join p in x on n equals p["DeviceID"].ToString() into np
                          from p in np.DefaultIfEmpty()
-                         select new Port() { Name = n, Desc = p != null ? p["Description"].ToString() : "Brak Opisu" }).ToList();
+                         select new Port() { Name = n, Desc = p != null ? p["Description"].ToString() : "Brak Opisu" }));
             }
 
         }
-        private void ChangeComListening(object sender, RoutedEventArgs e)
+        private void TurnOnComListening(object sender, RoutedEventArgs e)
        {
             try
             {
@@ -69,9 +73,14 @@ namespace BSc_Thesis
 
         }
 
-        private void addText(string data)
+        private void TurnOffComListening(object sender, RoutedEventArgs e)
         {
-            textBox.Text += data;
+
+        }
+
+        private static bool IsTextAllowed(string text)
+        {
+            return !_regex.IsMatch(text);
         }
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
@@ -83,5 +92,20 @@ namespace BSc_Thesis
             Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => textBox.Text += indata ));
         }
 
+        private void myUpDownControl_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private void myUpDownControl_Pasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(String)))
+            {
+                String text = (String)e.DataObject.GetData(typeof(String));
+                if (!IsTextAllowed(text)) e.CancelCommand();
+            }
+            else
+                e.CancelCommand();
+        }
     }
 }
