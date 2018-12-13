@@ -28,15 +28,20 @@ namespace BSc_Thesis
     {
         ObservableCollection<Port> ports;
         SerialPort SP1 = new SerialPort();
-        static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+        static readonly Regex _regex = new Regex("[^0-9.-]+"); // Regex zezwalający na liczby
+
+        ObservableCollection<string> parity = new ObservableCollection<string>() { "Even", "Mark", "None", "Odd", "Space" };
+        ObservableCollection<string> handShake = new ObservableCollection<string>() { "None", "RequestToSend", "RequestToSendXOnXOff", "XOnXOff"};
+        ObservableCollection<string> stopBits = new ObservableCollection<string>() { "None", "One", "OnePointFive", "Two"};
 
         public MainWindow()
         {
             InitializeComponent();
             getPorts();
-            var porto = SerialPort.GetPortNames();
             Combo.ItemsSource = ports;
-            Combo.SelectedValuePath = "Name";
+            HandShakeCombo.ItemsSource = handShake;
+            ParityCombo.ItemsSource = parity;
+            StopBitsCombo.ItemsSource = stopBits;
         }
 
         private void getPorts()
@@ -47,8 +52,7 @@ namespace BSc_Thesis
                 var x = searcher.Get().Cast<ManagementBaseObject>().ToList();
                 ports = new ObservableCollection<Port>((from n in portnames
                          join p in x on n equals p["DeviceID"].ToString() into np
-                         from p in np.DefaultIfEmpty()
-                         select new Port() { Name = n, Desc = p != null ? p["Description"].ToString() : "Brak Opisu" }));
+                         select new Port() { Name = n }));
             }
 
         }
@@ -56,13 +60,15 @@ namespace BSc_Thesis
        {
             try
             {
-                SP1.PortName = "COM3";
-                SP1.BaudRate = 9600;
-                SP1.Parity = Parity.None;
-                SP1.DataBits = 8;
-                SP1.StopBits = StopBits.One;
-                SP1.Handshake = Handshake.RequestToSend;
-                SP1.DtrEnable = true;
+                if (Combo.SelectedIndex == -1 || HandShakeCombo.SelectedIndex == -1 || ParityCombo.SelectedIndex == -1 || StopBitsCombo.SelectedIndex == -1)
+                    throw new Exception("Nie wybrano wartości ComboBox");
+                SP1.PortName = Combo.SelectedItem.ToString();
+                SP1.BaudRate = (int)bitrateUpDownControl.Value;
+                SP1.Parity = (Parity) Enum.Parse(typeof(Parity), parity[ParityCombo.SelectedIndex]);
+                SP1.DataBits = (int)databitsUpDownControl.Value;
+                SP1.StopBits = (StopBits)Enum.Parse(typeof(StopBits), stopBits[StopBitsCombo.SelectedIndex]);
+                SP1.Handshake = (Handshake)Enum.Parse(typeof(Handshake), handShake[HandShakeCombo.SelectedIndex]);
+                SP1.DtrEnable = (bool)DtrCheckBox.IsChecked;
                 SP1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                 SP1.Open();
             }
@@ -70,12 +76,11 @@ namespace BSc_Thesis
             {
                 textBox.Text = e2.Message;
             }
-
         }
 
         private void TurnOffComListening(object sender, RoutedEventArgs e)
         {
-
+            if (SP1.IsOpen) SP1.Close();
         }
 
         private static bool IsTextAllowed(string text)
@@ -106,6 +111,12 @@ namespace BSc_Thesis
             }
             else
                 e.CancelCommand();
+        }
+
+        private void RefreshPort_Click(object sender, RoutedEventArgs e)
+        {
+            getPorts();
+            Combo.ItemsSource = ports;
         }
     }
 }
