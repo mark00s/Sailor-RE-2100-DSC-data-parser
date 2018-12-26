@@ -13,12 +13,11 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label HorizontalAlignment="Center" >Odbieranie tekstu</Label>
-        <Label HorizontalAlignment="Center"  Grid.Column="1">Odbieranie Dźwięku</Label>
-        <Grid Grid.Row="1">
+        <Label HorizontalAlignment="Center" Grid.Column="1">Odbieranie Dźwięku</Label>
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="60"/>
@@ -58,7 +57,9 @@
                 <Button Name="TurnOffPort" Grid.Column="1" Click="TurnOffComListening" Content="Turn off Listening"/>
                 <Button Name="TurnOnPort" Grid.Column="0" Click="TurnOnComListening" Width="Auto" Content="Turn on Listening"/>
             </StackPanel>
-            <TextBox Name="textBox" Grid.Row="0" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         </Grid>
+        <!-- Odbieranie tekstu -->
+        <Label HorizontalAlignment="Center" Grid.Row="1">Odbieranie tekstu</Label>
+        <TextBox IsReadOnly="True" Name="textBox" Grid.Row="1" HorizontalAlignment="Stretch" Height="236" Margin="10,23,10,10" Text="1243" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>
     </Grid>
 </Window>
