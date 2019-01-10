@@ -47,3 +47,5 @@ C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\D
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.csproj.CopyComplete
+C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\Debug\NAudio.dll
+C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\Debug\NAudio.xml

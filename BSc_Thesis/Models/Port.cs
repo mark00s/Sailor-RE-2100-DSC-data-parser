@@ -12,7 +12,6 @@ namespace BSc_Thesis.Models
 
         public override string ToString()
         {
-            
             return Name;
         }
     }
