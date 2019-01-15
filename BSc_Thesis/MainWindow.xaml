@@ -7,6 +7,12 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:MainWindowViewModel x:Key="ViewModel" />
+    </Window.Resources>
+    <Window.DataContext>
+        <DynamicResource ResourceKey="ViewModel" />
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -52,13 +58,20 @@
                 <ComboBox Name="ParityCombo" Grid.Column="6" Grid.Row="1"/>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="120"/>
+                        <Setter Property="Margin" Value="10"/>
+                        <Setter Property="Height" Value="40"/>
+                    </Style>
+                </StackPanel.Resources>
                 <Button Name="RefreshPort" Grid.Column="1" Click="RefreshPort_Click" Content="Refresh Port"/>
                 <Button Name="TurnOffPort" Grid.Column="1" Click="TurnOffComListening" Content="Turn off Listening"/>
                 <Button Name="TurnOnPort" Grid.Column="0" Click="TurnOnComListening" Width="Auto" Content="Turn on Listening"/>
             </StackPanel>
             
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="0">
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="25"/>
@@ -66,6 +79,10 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -76,22 +93,37 @@
                     <Setter Property="Grid.Column" Value="1"/>
                 </Style>
             </Grid.Resources>
-            <Label HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0">Odbieranie Dźwięku</Label>
+            <Label HorizontalAlignment="Center" Grid.ColumnSpan="2" VerticalAlignment="Top" Grid.Row="0">Odbieranie Dźwięku</Label>
             <TextBlock HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="Capture Device"/>
             <ComboBox Grid.Row="1" ItemsSource="{Binding CaptureDevices}" SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"  VerticalAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Text="Sample Rate" VerticalAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" Text="Bit Depth" VerticalAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Grid.Row="4" TextWrapping="Wrap" Text="Channel Count" VerticalAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Grid.Row="5" TextWrapping="Wrap" Text="Sample Type" VerticalAlignment="Center"/>
+            <TextBox Height="23" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="{Binding SampleRate, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <TextBox Height="23" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Text="{Binding BitDepth, Mode=TwoWay}" IsEnabled="{Binding IsBitDepthConfigurable}" VerticalAlignment="Center"/>
+            <TextBox Height="23" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" Text="{Binding ChannelCount, Mode=TwoWay}" VerticalAlignment="Center"/>
             <ComboBox  Grid.Row="5" SelectedIndex="{Binding SampleTypeIndex, Mode=TwoWay}" VerticalAlignment="Center">
                 <TextBlock><Run Text="IEEE Float"/></TextBlock>
                 <TextBlock><Run Text="PCM"/></TextBlock>
             </ComboBox>
-            <TextBox Height="23" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="{Binding SampleRate, Mode=TwoWay}" VerticalAlignment="Center"/>
-            <TextBox Height="23" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Text="{Binding BitDepth, Mode=TwoWay}" IsEnabled="{Binding IsBitDepthConfigurable}" VerticalAlignment="Center"/>
-            <TextBox Height="23" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" Text="{Binding ChannelCount, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <ProgressBar Grid.Row="6" Grid.ColumnSpan="2" Value="{Binding Peak}" Maximum="1" HorizontalAlignment="Center" Height="22"  Width="300"/>
+            <Slider  Minimum="0" Maximum="1" Value="{Binding RecordLevel, Mode=TwoWay}" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="300"/>
+            <Button Grid.Row="8" Content="Record" Width="Auto" Command="{Binding RecordCommand}"/>
+            <Button Grid.Row="8" Grid.Column="1" Content="Stop"   Width="Auto" Command="{Binding StopCommand}"/>
+            <Grid Grid.Row="9" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Row="9" Margin="5" ItemsSource="{Binding Recordings}" SelectedItem="{Binding SelectedRecording, Mode=TwoWay}"></ListBox>
+                <StackPanel Grid.Row="9" Orientation="Vertical" Grid.Column="1">
+                    <Button Content="Play" Command="{Binding PlayCommand}" HorizontalAlignment="Left" Margin="6" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Delete" Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="6" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Open Folder" Command="{Binding OpenFolderCommand}" HorizontalAlignment="Left" Margin="6" VerticalAlignment="Top" Width="75"/>
+                </StackPanel>
+            </Grid>
         </Grid>
-
         <!-- Odbieranie tekstu -->
         <Label HorizontalAlignment="Center" Grid.Row="1">Odbieranie tekstu</Label>
         <TextBox IsReadOnly="True" Name="textBox" Grid.Row="1" HorizontalAlignment="Stretch" Height="236" Margin="10,23,10,10" Text="1243" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>

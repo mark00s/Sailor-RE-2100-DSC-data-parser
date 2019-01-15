@@ -34,7 +34,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,100,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Channel Count" VerticalAlignment="Top" Height="16" Width="78"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,127,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Sample Type" VerticalAlignment="Top" Height="16" Width="68"/>
 
-        <local1:RecordingsView DataContext="{Binding RecordingsViewModel}" Margin="6" Grid.Row="2" />
+        <local1:RecordingsView DataContext="{Binding RecordingsViewModel}" Margin="6" Grid.Row="2" Loaded="RecordingsView_Loaded" />
         <TextBlock HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Share Mode" VerticalAlignment="Top" Height="16" Width="66"/>
         <ProgressBar Value="{Binding Peak}" Maximum="1" HorizontalAlignment="Left" Height="22" Margin="259,157,0,0" Grid.Row="1" VerticalAlignment="Top" Width="172"/>
         <Slider HorizontalAlignment="Left" Minimum="0" Maximum="1" Value="{Binding RecordLevel, Mode=TwoWay}" Margin="259,124,0,0" Grid.Row="1" VerticalAlignment="Top" Width="172"/>

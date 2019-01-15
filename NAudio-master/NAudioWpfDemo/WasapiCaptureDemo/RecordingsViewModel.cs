@@ -29,8 +29,6 @@ namespace NAudioWpfDemo.WasapiCaptureDemo
 
             PlayCommand = new DelegateCommand(Play);
             DeleteCommand = new DelegateCommand(Delete);
-            OpenFolderCommand = new DelegateCommand(OpenFolder);
-            EnableCommands();
         }
 
         private void OpenFolder()

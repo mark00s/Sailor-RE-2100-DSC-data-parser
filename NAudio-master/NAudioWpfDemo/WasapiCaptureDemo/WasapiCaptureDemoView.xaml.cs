@@ -11,5 +11,10 @@ namespace NAudioWpfDemo.WasapiCaptureDemo
         {
             InitializeComponent();
         }
+
+        private void RecordingsView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }
