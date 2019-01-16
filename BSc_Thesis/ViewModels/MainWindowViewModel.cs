@@ -22,10 +22,13 @@ namespace BSc_Thesis
         private int sampleRate;
         private int channelCount;
         private int bitDepth;
-        private string currentFileName;
         private float recordLevel;
         private float peak;
-        private string message;
+        private float peakLevel;
+        private float timeout = 2.0F;
+        private DateTime startDT;
+        private bool isRecording = false;
+        private string currentFileName;
         private string selectedRecording;
         private readonly SynchronizationContext synchronizationContext;
         private FileSystemWatcher watcher = new FileSystemWatcher();
@@ -36,9 +39,9 @@ namespace BSc_Thesis
         public DelegateCommand StopCommand { get; }
         public ObservableCollection<MMDevice> CaptureDevices { get; }
         public DelegateCommand PlayCommand { get; }
+        public DelegateCommand TestCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand OpenFolderCommand { get; }
-
         public ObservableCollection<string> Recordings { get; }
         public string OutputFolder { get; }
         public MMDevice SelectedDevice
@@ -116,6 +119,18 @@ namespace BSc_Thesis
                 }
             }
         }
+        public float PeakLevel
+        {
+            get => peakLevel;
+            set
+            {
+                if (peakLevel!= value)
+                {
+                    peakLevel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public float RecordLevel
         {
             get => recordLevel;
@@ -132,18 +147,7 @@ namespace BSc_Thesis
                 }
             }
         }
-        public string Message
-        {
-            get => message;
-            set
-            {
-                if (message != value)
-                {
-                    message = value;
-                    OnPropertyChanged("Message");
-                }
-            }
-        }
+
         public string SelectedRecording
         {
             get => selectedRecording;
@@ -174,29 +178,30 @@ namespace BSc_Thesis
 
         public MainWindowViewModel()
         {
-            Recordings = new ObservableCollection<string>();
-            OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
-            Directory.CreateDirectory(OutputFolder);
-            synchronizationContext = SynchronizationContext.Current;
-            foreach (var file in Directory.GetFiles(OutputFolder))
-            {
-                Recordings.Add(Path.GetFileName(file));
-            }
-            watcher.Path = OutputFolder;
             var enumerator = new MMDeviceEnumerator();
-            CaptureDevices = new ObservableCollection<MMDevice>(enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).AsEnumerable());
             var defaultDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console);
+            CaptureDevices = new ObservableCollection<MMDevice>(enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).AsEnumerable());
             SelectedDevice = CaptureDevices.FirstOrDefault(c => c.ID == defaultDevice.ID);
+            Recordings = new ObservableCollection<string>();
             RecordCommand = new DelegateCommand(Record);
             StopCommand = new DelegateCommand(Stop) { IsEnabled = false };
             PlayCommand = new DelegateCommand(Play);
             DeleteCommand = new DelegateCommand(Delete);
+            TestCommand = new DelegateCommand(Test);
             OpenFolderCommand = new DelegateCommand(OpenFolder);
+            synchronizationContext = SynchronizationContext.Current;
+            startDT = DateTime.Now;
+            OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
+            Directory.CreateDirectory(OutputFolder);
+            foreach (var file in Directory.GetFiles(OutputFolder))
+                Recordings.Add(Path.GetFileName(file));
+            watcher.Path = OutputFolder;
             watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.Created += new FileSystemEventHandler(OnChanged);
             watcher.Deleted += new FileSystemEventHandler(OnChanged);
             watcher.Renamed += new RenamedEventHandler(OnRenamed);
             watcher.EnableRaisingEvents = true;
+            
             EnableCommands();
         }
         private void Record()
@@ -208,7 +213,6 @@ namespace BSc_Thesis
                 capture.WaveFormat =
                     SampleTypeIndex == 0 ? WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, channelCount) :
                     new WaveFormat(sampleRate, bitDepth, channelCount);
-                currentFileName = String.Format("{0:dd.MM.yyy - HH-mm-ss}.wav", DateTime.Now);
                 RecordLevel = SelectedDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
                 capture.StartRecording();
                 capture.RecordingStopped += OnRecordingStopped;
@@ -229,23 +233,52 @@ namespace BSc_Thesis
                 SampleRate = c.WaveFormat.SampleRate;
                 BitDepth = c.WaveFormat.BitsPerSample;
                 ChannelCount = c.WaveFormat.Channels;
-                Message = "";
             }
         }
         void OnRecordingStopped(object sender, StoppedEventArgs e)
         {
-            writer.Dispose();
-            writer = null;
-            Recordings.Add(currentFileName);
-            SelectedRecording = currentFileName;
-            if (e.Exception == null)
-                Message = "Recording Stopped";
-            else
-                Message = "Recording Error: " + e.Exception.Message;
+            if (writer != null)
+            {
+                writer.Dispose();
+                writer = null;
+            }
             capture.Dispose();
             capture = null;
-            RecordCommand.IsEnabled = true;
-            StopCommand.IsEnabled = false;
+        }
+
+        void TestOnRecordingStopped(object sender, StoppedEventArgs e)
+        {
+            capture.Dispose();
+            capture = null;
+
+        }
+
+        private void Test()
+        {
+            try
+            {
+                capture = new WasapiCapture(SelectedDevice);
+                capture.ShareMode = ShareModeIndex == 0 ? AudioClientShareMode.Shared : AudioClientShareMode.Exclusive;
+                capture.WaveFormat =
+                    SampleTypeIndex == 0 ? WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, channelCount) :
+                    new WaveFormat(sampleRate, bitDepth, channelCount);
+                RecordLevel = SelectedDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
+                capture.StartRecording();
+                RecordCommand.IsEnabled = false;
+                TestCommand.IsEnabled = false;
+                StopCommand.IsEnabled = true;
+                capture.DataAvailable += TestCaptureOnDataAvailable;
+                capture.RecordingStopped += OnRecordingStopped;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private void TestCaptureOnDataAvailable(object sender, WaveInEventArgs args)
+        {
+            UpdatePeakMeter();
         }
 
         private void OpenFolder()
@@ -253,30 +286,52 @@ namespace BSc_Thesis
             Process.Start(OutputFolder);
         }
 
-        private void CaptureOnDataAvailable(object sender, WaveInEventArgs waveInEventArgs)
+        private void dumpFile()
         {
-            if (writer == null)
+            if (writer != null)
             {
-                writer = new WaveFileWriter(Path.Combine(OutputFolder,
-                    currentFileName),
-                    capture.WaveFormat);
+                writer.Dispose();
+                writer = null;
             }
+        }
 
-            writer.Write(waveInEventArgs.Buffer, 0, waveInEventArgs.BytesRecorded);
-
+        private void CaptureOnDataAvailable(object sender, WaveInEventArgs args)
+        {
+            if ((DateTime.Now - startDT).Seconds > timeout && isRecording == true)
+            {
+                dumpFile();
+                isRecording = false;
+            }
+            float max = 0;
+            var buffer = new WaveBuffer(args.Buffer);
+            for (int index = 0; index < args.BytesRecorded / 4; index++)
+            {
+                var sample = buffer.FloatBuffer[index];
+                if (sample < 0) sample = -sample;
+                if (sample > max) max = sample;
+            }
+            if (max >= peakLevel)
+            {
+                isRecording = true;
+                startDT = DateTime.Now;
+                if (writer == null)
+                {
+                    currentFileName = String.Format("{0:dd.MM.yyy - HH-mm-ss}.wav", DateTime.Now);
+                    writer = new WaveFileWriter(Path.Combine(OutputFolder, currentFileName), capture.WaveFormat);
+                }
+                writer.Write(args.Buffer, 0, args.BytesRecorded);
+            }
             UpdatePeakMeter();
         }
+
         void UpdatePeakMeter()
         {
-            synchronizationContext.Post(s => Peak = SelectedDevice.AudioMeterInformation
-                .MasterPeakValue*10.0F, null);
+            synchronizationContext.Post(s => Peak = SelectedDevice.AudioMeterInformation.MasterPeakValue, null);
         }
         private void Play()
         {
             if (SelectedRecording != null)
-            {
                 Process.Start(Path.Combine(OutputFolder, SelectedRecording));
-            }
         }
 
         private void Delete()
@@ -299,6 +354,10 @@ namespace BSc_Thesis
         private void Stop()
         {
             capture?.StopRecording();
+            RecordCommand.IsEnabled = true;
+            StopCommand.IsEnabled = false;
+            TestCommand.IsEnabled = true;
+            Peak = 0.0F;
         }
 
         private void EnableCommands()
@@ -313,9 +372,7 @@ namespace BSc_Thesis
                 new Action(() => {
                     Recordings.Clear();
                     foreach (var file in Directory.GetFiles(OutputFolder))
-                    {
                         Recordings.Add(Path.GetFileName(file));
-                    }
                     OnPropertyChanged("Recordings");
                 }));
         }
@@ -327,9 +384,7 @@ namespace BSc_Thesis
             {
                 Recordings.Clear();
                 foreach (var file in Directory.GetFiles(OutputFolder))
-                {
                     Recordings.Add(Path.GetFileName(file));
-                }
                 OnPropertyChanged("Recordings");
                 }));
         }
