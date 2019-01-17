@@ -24,6 +24,7 @@ namespace BSc_Thesis
         private int bitDepth;
         private float recordLevel;
         private float peak;
+        private string outputFolder;
         private float peakLevel;
         private float timeout = 2.0F;
         private DateTime startDT;
@@ -42,8 +43,32 @@ namespace BSc_Thesis
         public DelegateCommand TestCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand OpenFolderCommand { get; }
+        public DelegateCommand SelectFolderCommand { get; }
         public ObservableCollection<string> Recordings { get; }
-        public string OutputFolder { get; }
+        public float Timeout
+        {
+            get => timeout;
+            set
+            {
+                if (timeout!=value)
+                {
+                    timeout = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public string OutputFolder
+        {
+            get => outputFolder;
+            set
+            {
+                if (outputFolder != value)
+                {
+                    outputFolder = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public MMDevice SelectedDevice
         {
             get => selectedDevice;
@@ -65,7 +90,7 @@ namespace BSc_Thesis
                 if (bitDepth != value)
                 {
                     bitDepth = value;
-                    OnPropertyChanged("");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -77,7 +102,7 @@ namespace BSc_Thesis
                 if (channelCount != value)
                 {
                     channelCount = value;
-                    OnPropertyChanged("");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -101,7 +126,7 @@ namespace BSc_Thesis
                 if (sampleRate != value)
                 {
                     sampleRate = value;
-                    OnPropertyChanged("");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -156,7 +181,7 @@ namespace BSc_Thesis
                 if (selectedRecording != value)
                 {
                     selectedRecording = value;
-                    OnPropertyChanged("");
+                    OnPropertyChanged();
                     EnableCommands();
                 }
             }
@@ -169,7 +194,7 @@ namespace BSc_Thesis
                 if (peak != value)
                 {
                     peak = value;
-                    OnPropertyChanged("");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -188,13 +213,15 @@ namespace BSc_Thesis
             PlayCommand = new DelegateCommand(Play);
             DeleteCommand = new DelegateCommand(Delete);
             TestCommand = new DelegateCommand(Test);
+            SelectFolderCommand = new DelegateCommand(SelectFolder);
             OpenFolderCommand = new DelegateCommand(OpenFolder);
             synchronizationContext = SynchronizationContext.Current;
             startDT = DateTime.Now;
             OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
             Directory.CreateDirectory(OutputFolder);
             foreach (var file in Directory.GetFiles(OutputFolder))
-                Recordings.Add(Path.GetFileName(file));
+                if (Path.GetExtension(file) == ".wav")
+                    Recordings.Add(Path.GetFileName(file));
             watcher.Path = OutputFolder;
             watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.Created += new FileSystemEventHandler(OnChanged);
@@ -225,6 +252,34 @@ namespace BSc_Thesis
                 MessageBox.Show(e.Message);
             }
         }
+
+        private void SelectFolder()
+        {
+
+            System.Windows.Forms.FolderBrowserDialog Dialog = new System.Windows.Forms.FolderBrowserDialog();
+            while (Dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                Dialog.Reset();
+            }
+            OutputFolder = Dialog.SelectedPath;
+            watcher.Path = OutputFolder;
+            watcher.Changed += new FileSystemEventHandler(OnChanged);
+            watcher.Created += new FileSystemEventHandler(OnChanged);
+            watcher.Deleted += new FileSystemEventHandler(OnChanged);
+            watcher.Renamed += new RenamedEventHandler(OnRenamed);
+            watcher.EnableRaisingEvents = true;
+            Application.Current.Dispatcher.BeginInvoke(
+            System.Windows.Threading.DispatcherPriority.Background,
+            new Action(() =>
+            {
+                Recordings.Clear();
+                foreach (var file in Directory.GetFiles(OutputFolder))
+                    if (Path.GetExtension(file) == ".wav")
+                        Recordings.Add(Path.GetFileName(file));
+                OnPropertyChanged("Recordings");
+            }));
+        }
+
         private void GetDefaultRecordingFormat(MMDevice value)
         {
             using (var c = new WasapiCapture(value))
@@ -297,7 +352,7 @@ namespace BSc_Thesis
 
         private void CaptureOnDataAvailable(object sender, WaveInEventArgs args)
         {
-            if ((DateTime.Now - startDT).Seconds > timeout && isRecording == true)
+            if ((DateTime.Now - startDT).Seconds > Timeout && isRecording == true)
             {
                 dumpFile();
                 isRecording = false;
@@ -372,7 +427,8 @@ namespace BSc_Thesis
                 new Action(() => {
                     Recordings.Clear();
                     foreach (var file in Directory.GetFiles(OutputFolder))
-                        Recordings.Add(Path.GetFileName(file));
+                        if (Path.GetExtension(file) == ".wav")
+                            Recordings.Add(Path.GetFileName(file));
                     OnPropertyChanged("Recordings");
                 }));
         }
@@ -384,9 +440,10 @@ namespace BSc_Thesis
             {
                 Recordings.Clear();
                 foreach (var file in Directory.GetFiles(OutputFolder))
-                    Recordings.Add(Path.GetFileName(file));
+                    if (Path.GetExtension(file) == ".wav")
+                        Recordings.Add(Path.GetFileName(file));
                 OnPropertyChanged("Recordings");
-                }));
+            }));
         }
 
     }

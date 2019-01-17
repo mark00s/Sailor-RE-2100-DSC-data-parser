@@ -13,7 +13,6 @@ C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\D
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.csproj.CoreCompileInputs.cache
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.exe
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.pdb
-C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\App.baml
 C:\Users\MarkPC\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\Debug\BSc_Thesis.exe.config
 C:\Users\MarkPC\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\Debug\BSc_Thesis.exe
 C:\Users\MarkPC\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\bin\Debug\BSc_Thesis.pdb
@@ -84,3 +83,4 @@ C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.csproj.Co
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.exe
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.pdb
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\GeneratedInternalTypeHelper.g.cs

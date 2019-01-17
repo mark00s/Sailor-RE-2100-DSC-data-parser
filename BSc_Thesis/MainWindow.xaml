@@ -81,6 +81,7 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -106,7 +107,9 @@
                 <TextBlock><Run Text="IEEE Float"/></TextBlock>
                 <TextBlock><Run Text="PCM"/></TextBlock>
             </ComboBox>
-            <Grid Grid.Row="6" Grid.ColumnSpan="2">
+            <Label Grid.Row="6" Content="Timeout (in seconds):"/>
+            <xctk:SingleUpDown Grid.Row="6" Grid.Column="1"  DefaultValue="10" DataObject.Pasting="myUpDownControl_Pasting"  PreviewTextInput="myUpDownControl_PreviewTextInput" Value="{Binding Timeout}"/>
+            <Grid Grid.Row="7" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -200,7 +203,7 @@
                     </Slider.Resources>
                 </Slider>
             </Grid>
-            <Grid Grid.Row="7" Grid.ColumnSpan="2">
+            <Grid Grid.Row="8" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -215,16 +218,22 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <ListBox Grid.Row="9" Margin="5" ItemsSource="{Binding Recordings}" SelectedItem="{Binding SelectedRecording, Mode=TwoWay}"></ListBox>
-                <StackPanel Grid.Row="9" Orientation="Vertical" Grid.Column="1">
-                    <Button Content="Play" Command="{Binding PlayCommand}" HorizontalAlignment="Left" Margin="6" VerticalAlignment="Top" Width="75"/>
-                    <Button Content="Delete" Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="6" VerticalAlignment="Top" Width="75"/>
-                    <Button Content="Open Folder" Command="{Binding OpenFolderCommand}" HorizontalAlignment="Left" Margin="6" VerticalAlignment="Top" Width="75"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ListBox  Margin="5" ItemsSource="{Binding Recordings}" SelectedItem="{Binding SelectedRecording, Mode=TwoWay}"></ListBox>
+                <StackPanel  Orientation="Vertical" Grid.Column="1">
+                    <Button Content="Play" Command="{Binding PlayCommand}"  Margin="6" Width="75"/>
+                    <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="6" Width="75"/>
+                    <Button Content="Open Folder" Command="{Binding OpenFolderCommand}" Margin="6" Width="75"/>
                 </StackPanel>
+                <Label Grid.Row="1" Content="{Binding OutputFolder}"/>
+                <Button Grid.Row="1" Grid.Column="1" Content="Select Folder" Command="{Binding SelectFolderCommand}" Margin="6" Width="75"/>
             </Grid>
         </Grid>
         <!-- Odbieranie tekstu -->
         <Label HorizontalAlignment="Center" Grid.Row="0" Content="COM port text receiver"/>
-        <TextBox IsReadOnly="True" Name="textBox" Grid.Row="1" HorizontalAlignment="Stretch" Height="236" Margin="10,23,10,10" Text="1243" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>
+        <TextBox IsReadOnly="True" Name="textBox" Grid.Row="1" HorizontalAlignment="Stretch" Height="236" Margin="5" Text="1243" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>
     </Grid>
 </Window>
