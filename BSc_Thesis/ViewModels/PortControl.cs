@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.IO.Ports;
+using System.Windows;
 
 namespace BSc_Thesis.ViewModels
 {
@@ -26,7 +27,7 @@ namespace BSc_Thesis.ViewModels
             }
             catch (IOException e)
             {
-                throw;
+                MessageBox.Show(e.Message);
             }
         }
 

@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="BSc_Thesis.ComCaptureView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BSc_Thesis"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label HorizontalAlignment="Center" Grid.Row="0" Content="COM port text receiver"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Port:"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="BitRate:"/>
+            <Label Grid.Row="0" Grid.Column="2" Content="DataBits:"/>
+            <Label Grid.Row="0" Grid.Column="3" Content="StopBits:"/>
+            <Label Grid.Row="0" Grid.Column="4" Content="Handshake:"/>
+            <Label Grid.Row="0" Grid.Column="5" Content="DTR?"/>
+            <Label Grid.Row="0" Grid.Column="6" Content="Parity:"/>
+            <ComboBox Name="Combo" Grid.Row="1"/>
+            <xctk:IntegerUpDown Text="{Binding RelativeSource={RelativeSource Self}, Path=Value}"  DefaultValue="9600" Grid.Column="1" Grid.Row="1" Name="bitrateUpDownControl" />
+            <xctk:IntegerUpDown Text="{Binding RelativeSource={RelativeSource Self}, Path=Value}" DefaultValue="8" Grid.Column="2" Grid.Row="1" Name="databitsUpDownControl"/>
+            <ComboBox Grid.Column="3" Grid.Row="1" Name="StopBitsCombo"/>
+            <ComboBox Name="HandShakeCombo" Grid.Column="4" Grid.Row="1"/>
+            <CheckBox Name="DtrCheckBox" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" Grid.Row="1"/>
+            <ComboBox Name="ParityCombo" Grid.Column="6" Grid.Row="1"/>
+            <Button Grid.Row="2" Grid.ColumnSpan="2" Name="RefreshPort" Click="RefreshPort_Click"   Content="Refresh Ports"/>
+            <Button Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Name="TurnOffPort" Click="TurnOffComListening" Content="Turn off Listening"/>
+            <Button Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Name="TurnOnPort"  Click="TurnOnComListening" Width="Auto" Content="Turn on Listening"/>
+        </Grid>
+        <TextBox IsReadOnly="True" Name="textBox" Grid.Row="2" HorizontalAlignment="Stretch" Height="236"  Text="1243" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>
+    </Grid>
+</UserControl>
