@@ -51,7 +51,7 @@
             <TextBlock><Run Text="PCM"/></TextBlock>
         </ComboBox>
         <Label Grid.Row="6" Content="Timeout (in seconds):"/>
-        <xctk:SingleUpDown Grid.Row="6" Grid.Column="1"  DefaultValue="10" Value="{Binding Timeout}"/>
+        <xctk:SingleUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Timeout}"/>
         <Grid Grid.Row="8" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

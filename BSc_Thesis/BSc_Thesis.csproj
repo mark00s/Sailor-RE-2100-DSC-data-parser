@@ -85,8 +85,8 @@
     <Compile Include="SoundReceiverView.xaml.cs">
       <DependentUpon>SoundReceiverView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ComCaptureViewModel.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SoundReceiverViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\PortControl.cs" />

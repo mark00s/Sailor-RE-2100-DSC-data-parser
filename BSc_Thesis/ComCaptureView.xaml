@@ -4,9 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BSc_Thesis"
+             xmlns:viewModel="clr-namespace:BSc_Thesis.ViewModels"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="400">
+    <UserControl.Resources>
+        <viewModel:ComCaptureViewModel x:Key="ViewModel" d:IsDataSource="True"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <StaticResource ResourceKey="ViewModel"/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -36,17 +43,30 @@
             <Label Grid.Row="0" Grid.Column="4" Content="Handshake:"/>
             <Label Grid.Row="0" Grid.Column="5" Content="DTR?"/>
             <Label Grid.Row="0" Grid.Column="6" Content="Parity:"/>
-            <ComboBox Name="Combo" Grid.Row="1"/>
-            <xctk:IntegerUpDown Text="{Binding RelativeSource={RelativeSource Self}, Path=Value}"  DefaultValue="9600" Grid.Column="1" Grid.Row="1" Name="bitrateUpDownControl" />
-            <xctk:IntegerUpDown Text="{Binding RelativeSource={RelativeSource Self}, Path=Value}" DefaultValue="8" Grid.Column="2" Grid.Row="1" Name="databitsUpDownControl"/>
-            <ComboBox Grid.Column="3" Grid.Row="1" Name="StopBitsCombo"/>
-            <ComboBox Name="HandShakeCombo" Grid.Column="4" Grid.Row="1"/>
-            <CheckBox Name="DtrCheckBox" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" Grid.Row="1"/>
-            <ComboBox Name="ParityCombo" Grid.Column="6" Grid.Row="1"/>
-            <Button Grid.Row="2" Grid.ColumnSpan="2" Name="RefreshPort" Click="RefreshPort_Click"   Content="Refresh Ports"/>
-            <Button Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Name="TurnOffPort" Click="TurnOffComListening" Content="Turn off Listening"/>
-            <Button Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Name="TurnOnPort"  Click="TurnOnComListening" Width="Auto" Content="Turn on Listening"/>
+            <ComboBox SelectedIndex="0" SelectedValue="{Binding PortValue}" ItemsSource="{Binding Port}" Grid.Row="1"/>
+            <xctk:IntegerUpDown Value="{Binding PortBitRate}" Grid.Column="1" Grid.Row="1" PreviewTextInput="myUpDownControl_PreviewTextInput"/>
+            <xctk:IntegerUpDown Value="{Binding DataBits}" Grid.Column="2" Grid.Row="1" PreviewTextInput="myUpDownControl_PreviewTextInput"/>
+            <ComboBox SelectedValue="{Binding StopBitsValue}" SelectedIndex="0" Grid.Column="3" Grid.Row="1" ItemsSource="{Binding StopBits}"/>
+            <ComboBox SelectedValue="{Binding HandshakeValue}" SelectedIndex="0" Grid.Column="4" Grid.Row="1" ItemsSource="{Binding Handshake}"/>
+            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" Grid.Row="1" IsChecked="{Binding IsDtr}"/>
+            <ComboBox SelectedValue="{Binding ParityValue}" SelectedIndex="0" ItemsSource="{Binding Parity}" Grid.Column="6" Grid.Row="1"/>
+            <Button Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding RefreshPortsCommand}" Content="Refresh Ports"/>
+            <Button Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Command="{Binding TurnListeningCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsPortActive, Source={StaticResource ViewModel}}" Value="False">
+                                <Setter Property="Content" Value="Turn on Listening"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsPortActive, Source={StaticResource ViewModel}}" Value="True">
+                                <Setter Property="Content" Value="Turn off Listening"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Content="Clear Log" Command="{Binding ClearLogCommand}" />
         </Grid>
-        <TextBox IsReadOnly="True" Name="textBox" Grid.Row="2" HorizontalAlignment="Stretch" Height="236"  Text="1243" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>
+        <TextBox IsReadOnly="True" Grid.Row="2" HorizontalAlignment="Stretch" Height="236"  Text="{Binding ComPortLog}" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>
     </Grid>
 </UserControl>

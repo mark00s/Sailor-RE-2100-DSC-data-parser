@@ -7,18 +7,12 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Window.Resources>
-        <local:MainWindowViewModel x:Key="ViewModel" />
-    </Window.Resources>
-    <Window.DataContext>
-        <DynamicResource ResourceKey="ViewModel" />
-    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <local:ComCaptureView DataContext="{Binding ComCaptureViewModel}" />
+        <local:ComCaptureView/>
         <local:SoundReceiverView Grid.Column="1"/>
     </Grid>
 </Window>

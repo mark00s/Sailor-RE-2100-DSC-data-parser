@@ -44,98 +44,74 @@ namespace BSc_Thesis.ViewModels
         public DelegateCommand OpenFolderCommand { get; }
         public DelegateCommand SelectFolderCommand { get; }
         public ObservableCollection<string> Recordings { get; }
-        public float Timeout
-        {
+        public float Timeout {
             get => timeout;
-            set
-            {
-                if (timeout != value)
-                {
+            set {
+                if (timeout != value) {
                     timeout = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public string OutputFolder
-        {
+        public string OutputFolder {
             get => outputFolder;
-            set
-            {
-                if (outputFolder != value)
-                {
+            set {
+                if (outputFolder != value) {
                     outputFolder = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public MMDevice SelectedDevice
-        {
+        public MMDevice SelectedDevice {
             get => selectedDevice;
-            set
-            {
-                if (selectedDevice != value)
-                {
+            set {
+                if (selectedDevice != value) {
                     selectedDevice = value;
                     OnPropertyChanged();
                     GetDefaultRecordingFormat(value);
                 }
             }
         }
-        public int BitDepth
-        {
+        public int BitDepth {
             get => bitDepth;
-            set
-            {
-                if (bitDepth != value)
-                {
+            set {
+                if (bitDepth != value) {
                     bitDepth = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public int ChannelCount
-        {
+        public int ChannelCount {
             get => channelCount;
-            set
-            {
-                if (channelCount != value)
-                {
+            set {
+                if (channelCount != value) {
                     channelCount = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public int ShareModeIndex
-        {
+        public int ShareModeIndex {
             get => shareModeIndex;
-            set
-            {
-                if (shareModeIndex != value)
-                {
+            set {
+                if (shareModeIndex != value) {
                     shareModeIndex = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public int SampleRate
-        {
+        public int SampleRate {
             get => sampleRate;
-            set
-            {
-                if (sampleRate != value)
-                {
+            set {
+                if (sampleRate != value) {
                     sampleRate = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public int SampleTypeIndex
-        {
+        public int SampleTypeIndex {
             get => sampleTypeIndex;
-            set
-            {
-                if (sampleTypeIndex != value)
-                {
+            set {
+                if (sampleTypeIndex != value) {
                     sampleTypeIndex = value;
                     OnPropertyChanged();
                     BitDepth = sampleTypeIndex == 1 ? 16 : 32;
@@ -143,28 +119,21 @@ namespace BSc_Thesis.ViewModels
                 }
             }
         }
-        public float PeakLevel
-        {
+        public float PeakLevel {
             get => peakLevel;
-            set
-            {
-                if (peakLevel != value)
-                {
+            set {
+                if (peakLevel != value) {
                     peakLevel = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public float RecordLevel
-        {
+        public float RecordLevel {
             get => recordLevel;
-            set
-            {
-                if (recordLevel != value)
-                {
+            set {
+                if (recordLevel != value) {
                     recordLevel = value;
-                    if (capture != null)
-                    {
+                    if (capture != null) {
                         SelectedDevice.AudioEndpointVolume.MasterVolumeLevelScalar = value;
                     }
                     OnPropertyChanged();
@@ -172,26 +141,20 @@ namespace BSc_Thesis.ViewModels
             }
         }
 
-        public string SelectedRecording
-        {
+        public string SelectedRecording {
             get => selectedRecording;
-            set
-            {
-                if (selectedRecording != value)
-                {
+            set {
+                if (selectedRecording != value) {
                     selectedRecording = value;
                     OnPropertyChanged();
                     EnableCommands();
                 }
             }
         }
-        public float Peak
-        {
+        public float Peak {
             get => peak;
-            set
-            {
-                if (peak != value)
-                {
+            set {
+                if (peak != value) {
                     peak = value;
                     OnPropertyChanged();
                 }
@@ -227,13 +190,11 @@ namespace BSc_Thesis.ViewModels
             watcher.Deleted += new FileSystemEventHandler(OnChanged);
             watcher.Renamed += new RenamedEventHandler(OnRenamed);
             watcher.EnableRaisingEvents = true;
-
             EnableCommands();
         }
         private void Record()
         {
-            try
-            {
+            try {
                 capture = new WasapiCapture(SelectedDevice);
                 capture.ShareMode = ShareModeIndex == 0 ? AudioClientShareMode.Shared : AudioClientShareMode.Exclusive;
                 capture.WaveFormat =
@@ -245,9 +206,7 @@ namespace BSc_Thesis.ViewModels
                 capture.DataAvailable += CaptureOnDataAvailable;
                 RecordCommand.IsEnabled = false;
                 StopCommand.IsEnabled = true;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 MessageBox.Show(e.Message);
             }
         }
@@ -256,8 +215,7 @@ namespace BSc_Thesis.ViewModels
         {
 
             System.Windows.Forms.FolderBrowserDialog Dialog = new System.Windows.Forms.FolderBrowserDialog();
-            while (Dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-            {
+            while (Dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) {
                 Dialog.Reset();
             }
             OutputFolder = Dialog.SelectedPath;
@@ -269,8 +227,7 @@ namespace BSc_Thesis.ViewModels
             watcher.EnableRaisingEvents = true;
             Application.Current.Dispatcher.BeginInvoke(
             System.Windows.Threading.DispatcherPriority.Background,
-            new Action(() =>
-            {
+            new Action(() => {
                 Recordings.Clear();
                 foreach (var file in Directory.GetFiles(OutputFolder))
                     if (Path.GetExtension(file) == ".wav")
@@ -281,8 +238,7 @@ namespace BSc_Thesis.ViewModels
 
         private void GetDefaultRecordingFormat(MMDevice value)
         {
-            using (var c = new WasapiCapture(value))
-            {
+            using (var c = new WasapiCapture(value)) {
                 SampleTypeIndex = c.WaveFormat.Encoding == WaveFormatEncoding.IeeeFloat ? 0 : 1;
                 SampleRate = c.WaveFormat.SampleRate;
                 BitDepth = c.WaveFormat.BitsPerSample;
@@ -291,8 +247,7 @@ namespace BSc_Thesis.ViewModels
         }
         void OnRecordingStopped(object sender, StoppedEventArgs e)
         {
-            if (writer != null)
-            {
+            if (writer != null) {
                 writer.Dispose();
                 writer = null;
             }
@@ -309,8 +264,7 @@ namespace BSc_Thesis.ViewModels
 
         private void Test()
         {
-            try
-            {
+            try {
                 capture = new WasapiCapture(SelectedDevice);
                 capture.ShareMode = ShareModeIndex == 0 ? AudioClientShareMode.Shared : AudioClientShareMode.Exclusive;
                 capture.WaveFormat =
@@ -323,9 +277,7 @@ namespace BSc_Thesis.ViewModels
                 StopCommand.IsEnabled = true;
                 capture.DataAvailable += TestCaptureOnDataAvailable;
                 capture.RecordingStopped += OnRecordingStopped;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 MessageBox.Show(e.Message);
             }
         }
@@ -342,8 +294,7 @@ namespace BSc_Thesis.ViewModels
 
         private void dumpFile()
         {
-            if (writer != null)
-            {
+            if (writer != null) {
                 writer.Dispose();
                 writer = null;
             }
@@ -351,25 +302,23 @@ namespace BSc_Thesis.ViewModels
 
         private void CaptureOnDataAvailable(object sender, WaveInEventArgs args)
         {
-            if ((DateTime.Now - startDT).Seconds > Timeout && isRecording == true)
-            {
+            if ((DateTime.Now - startDT).Seconds > Timeout && isRecording == true) {
                 dumpFile();
                 isRecording = false;
             }
             float max = 0;
             var buffer = new WaveBuffer(args.Buffer);
-            for (int index = 0; index < args.BytesRecorded / 4; index++)
-            {
+            for (int index = 0; index < args.BytesRecorded / 4; index++) {
                 var sample = buffer.FloatBuffer[index];
-                if (sample < 0) sample = -sample;
-                if (sample > max) max = sample;
+                if (sample < 0)
+                    sample = -sample;
+                if (sample > max)
+                    max = sample;
             }
-            if (max >= peakLevel)
-            {
+            if (max >= peakLevel) {
                 isRecording = true;
                 startDT = DateTime.Now;
-                if (writer == null)
-                {
+                if (writer == null) {
                     currentFileName = String.Format("{0:dd.MM.yyy - HH-mm-ss}.wav", DateTime.Now);
                     writer = new WaveFileWriter(Path.Combine(OutputFolder, currentFileName), capture.WaveFormat);
                 }
@@ -390,16 +339,12 @@ namespace BSc_Thesis.ViewModels
 
         private void Delete()
         {
-            if (SelectedRecording != null)
-            {
-                try
-                {
+            if (SelectedRecording != null) {
+                try {
                     File.Delete(Path.Combine(OutputFolder, SelectedRecording));
                     Recordings.Remove(SelectedRecording);
                     SelectedRecording = Recordings.FirstOrDefault();
-                }
-                catch (Exception)
-                {
+                } catch (Exception) {
                     MessageBox.Show("Could not delete recording");
                 }
             }
@@ -435,8 +380,7 @@ namespace BSc_Thesis.ViewModels
         {
             Application.Current.Dispatcher.BeginInvoke(
             System.Windows.Threading.DispatcherPriority.Background,
-            new Action(() =>
-            {
+            new Action(() => {
                 Recordings.Clear();
                 foreach (var file in Directory.GetFiles(OutputFolder))
                     if (Path.GetExtension(file) == ".wav")
