@@ -286,14 +286,14 @@ namespace BSc_Thesis.ViewModels
 
         private void GetDefaultRecordingFormat(MMDevice value)
         {
-            using (var c = new WasapiCapture(value))
-            {
-                SampleTypeIndex = c.WaveFormat.Encoding == WaveFormatEncoding.IeeeFloat ? 0 : 1;
-                SampleRate = c.WaveFormat.SampleRate;
-                BitDepth = c.WaveFormat.BitsPerSample;
-                ChannelCount = c.WaveFormat.Channels;
-            }
+            WasapiCapture c = value.DataFlow == DataFlow.Capture ? c = new WasapiCapture(value) : c = new WasapiLoopbackCapture(value);
+            SampleTypeIndex = c.WaveFormat.Encoding == WaveFormatEncoding.IeeeFloat ? 0 : 1;
+            SampleRate = c.WaveFormat.SampleRate;
+            BitDepth = c.WaveFormat.BitsPerSample;
+            ChannelCount = c.WaveFormat.Channels;
+            c.Dispose();
         }
+
         void OnRecordingStopped(object sender, StoppedEventArgs e)
         {
             if (writer != null)
