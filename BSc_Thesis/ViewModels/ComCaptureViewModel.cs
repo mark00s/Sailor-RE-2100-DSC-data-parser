@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;
+using System.Timers;
 using System.Windows;
 
 namespace BSc_Thesis.ViewModels
@@ -26,6 +27,7 @@ namespace BSc_Thesis.ViewModels
         private string comPortLog;
         private string receivedCalls;
         private bool active = false;
+        private Timer resolverTimer;
         #endregion
 
         #region Properties
@@ -146,6 +148,10 @@ namespace BSc_Thesis.ViewModels
             RefreshPortsCommand = new DelegateCommand(refreshPorts);
             TurnListeningCommand = new DelegateCommand(turnListening);
             ClearLogCommand = new DelegateCommand(clearLog);
+            resolverTimer = new Timer(50);
+            resolverTimer.Elapsed += dataResolver;
+            resolverTimer.AutoReset = true;
+            resolverTimer.Enabled = true;
             refreshPorts();
         }
 
@@ -177,15 +183,12 @@ namespace BSc_Thesis.ViewModels
             IsPortActive = SP1.IsOpen?true:false;
         }
 
-        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        private void dataResolver(Object source, ElapsedEventArgs e)
         {
-            SerialPort sp = (SerialPort) sender;
-            string indata = sp.ReadExisting();
-            Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => ComPortLog += indata));
-            comPortTemp += indata;
-            while(true) {
+            while (true) {
                 var r = messageRegex.Match(comPortTemp);
-                if (!r.Success) break;
+                if (!r.Success)
+                    break;
                 if (comPortLog.Length > r.Index + r.Length + 1) {
                     comPortTemp = string.Empty;
                 } else {
@@ -216,6 +219,14 @@ namespace BSc_Thesis.ViewModels
                 }
                 ReceivedCalls += result + "------------------------------\n";
             }
+        }
+
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort) sender;
+            string indata = sp.ReadExisting();
+            Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => ComPortLog += indata));
+            comPortTemp += indata;
         }
 
         private string resolveEndOfSequence(string code)
