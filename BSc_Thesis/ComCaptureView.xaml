@@ -67,6 +67,17 @@
             </Button>
             <Button Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Content="Clear Log" Command="{Binding ClearLogCommand}" />
         </Grid>
-        <TextBox IsReadOnly="True" Grid.Row="2" HorizontalAlignment="Stretch" Height="236"  Text="{Binding ComPortLog}" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto"/>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Received Calls" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="1"  HorizontalAlignment="Stretch" Text="{Binding ReceivedCalls}"/>
+            <Label Grid.Row="2" Content="Log"  HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="3" IsReadOnly="True" HorizontalAlignment="Stretch" Text="{Binding ComPortLog}" TextWrapping="Wrap" Width="Auto"/>
+        </Grid>
     </Grid>
 </UserControl>

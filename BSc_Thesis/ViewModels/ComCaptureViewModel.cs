@@ -1,21 +1,18 @@
 ﻿using BSc_Thesis.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Management;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace BSc_Thesis.ViewModels
 {
     class ComCaptureViewModel : ViewModelBase
     {
-
-        private int portBitRate = 9600;
+        #region Fields
+        private int portBitRate = 4800;
         private int dataBits = 8;
         private SerialPort SP1 = new SerialPort();
         private bool isDtr = true;
@@ -24,8 +21,14 @@ namespace BSc_Thesis.ViewModels
         private string stopBitsValue;
         private string handshakeValue;
         private string parityValue;
+        private string comPortTemp = String.Empty;
+        private Regex messageRegex = new Regex(@"Incoming[\w\W]+?> \?");
         private string comPortLog;
+        private string receivedCalls;
         private bool active = false;
+        #endregion
+
+        #region Properties
         public bool IsPortActive {
             get => active;
             set {
@@ -45,6 +48,17 @@ namespace BSc_Thesis.ViewModels
                 }
             }
         }
+
+        public string ReceivedCalls {
+            get => receivedCalls;
+            set {
+                if (receivedCalls != value) {
+                    receivedCalls = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+                
         public ObservableCollection<string> Parity { get; } = new ObservableCollection<string>() { "Even", "Mark", "None", "Odd", "Space" };
         public ObservableCollection<string> Handshake { get; } = new ObservableCollection<string>() { "None", "RequestToSend", "RequestToSendXOnXOff", "XOnXOff" };
         public ObservableCollection<string> StopBits { get; } = new ObservableCollection<string>() { "None", "One", "OnePointFive", "Two" };
@@ -125,6 +139,7 @@ namespace BSc_Thesis.ViewModels
                 }
             }
         }
+        #endregion
 
         public ComCaptureViewModel()
         {
@@ -167,6 +182,78 @@ namespace BSc_Thesis.ViewModels
             SerialPort sp = (SerialPort) sender;
             string indata = sp.ReadExisting();
             Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(() => ComPortLog += indata));
+            comPortTemp += indata;
+            while(true) {
+                var r = messageRegex.Match(comPortTemp);
+                if (!r.Success) break;
+                if (comPortLog.Length > r.Index + r.Length + 1) {
+                    comPortTemp = string.Empty;
+                } else {
+                    comPortTemp = comPortTemp.Substring(r.Index + r.Length + 1);
+                }
+                string[] m = r.Value.Replace("\r", "").Split('\n');
+                string result = string.Empty;
+                foreach (string s in m) {
+                    if (s != string.Empty && !s.Contains('>')) {
+                        if (s.Contains('=')) {
+                            var s2 = s.Replace(" ", "").Split('=');
+                            if (s2[0] == "Nature") {
+                                s2[1] = resolveDistressCode(s2[1]);
+                            }
+                            if (s2[0] == "Eos") {
+                                s2[1] = resolveEndOfSequence(s2[1]);
+                            }
+                            result += s2[0] + ": " + s2[1] + '\n';
+                        } else {
+                            var s2 = s.Split(' ');
+                            if (s.Contains("Incoming")) {
+                                result += "Type: " + s2[1] + '\n';
+                            } else {
+                                result += s2[0] + ": " + s2[1] + '\n';
+                            }
+                        }
+                    }
+                }
+                ReceivedCalls += result + "------------------------------\n";
+            }
+        }
+
+        private string resolveEndOfSequence(string code)
+        {
+            if (code == "117")
+                return "RQ Acknowledge required";
+            else if (code == "122")
+                return "BQ Acknowledge respond";
+            else if (code == "127")
+                return "Other calls";
+            return code;
+        }
+
+        private string resolveDistressCode(string code)
+        {
+            switch (code) {
+                case "100":
+                    return "Fire, explosion";
+                case "101":
+                    return "Flooding";
+                case "102":
+                    return "Colision";
+                case "103":
+                    return "Grounding";
+                case "104":
+                    return "Listing, capsizing";
+                case "105":
+                    return "Sinking";
+                case "106":
+                    return "Disable and adrift";
+                case "107":
+                    return "Undesined distress";
+                case "108":
+                    return "Abandoning ship";
+                case "112":
+                    return "EPIRB emision";
+            }
+            return code;
         }
 
         private void refreshPorts()
