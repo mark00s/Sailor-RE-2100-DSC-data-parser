@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="BSc_Thesis.ViewModelBase">
+    <Position X="2" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ViewModelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BSc_Thesis.ViewModels.SoundReceiverViewModel">
+    <Position X="5" Y="2.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>HECRAQwAkUAFIBEAEUAAQAgAgAFEkgYBsxgCSBEIRBg=</HashCode>
+      <FileName>ViewModels\SoundReceiverViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BSc_Thesis.ViewModels.PortControl">
+    <Position X="7" Y="0.5" Width="7.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\PortControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BSc_Thesis.ViewModels.DelegateCommand" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAACAQQAAEUAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\DelegateCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BSc_Thesis.ViewModels.ComCaptureViewModel">
+    <Position X="0.5" Y="2.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>SBAAAAgYEUAMIFEACERAQIpECOEcwBAAE0AEKEhwQLA=</HashCode>
+      <FileName>ViewModels\ComCaptureViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BSc_Thesis.Models.Port">
+    <Position X="8.75" Y="12.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Port.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BSc_Thesis.App">
+    <Position X="8.75" Y="11.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BSc_Thesis.ComCaptureView" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="6.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAE=</HashCode>
+      <FileName>ComCaptureView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BSc_Thesis.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="8.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BSc_Thesis.SoundReceiverView" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="9.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SoundReceiverView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

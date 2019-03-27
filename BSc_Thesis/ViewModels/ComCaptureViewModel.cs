@@ -182,6 +182,8 @@ namespace BSc_Thesis.ViewModels
         {
             Files = new ObservableCollection<string>();
             OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
+            if (!Directory.Exists(OutputFolder))
+                Directory.CreateDirectory(OutputFolder);
             RefreshPortsCommand = new DelegateCommand(refreshPorts);
             TurnListeningCommand = new DelegateCommand(turnListening);
             ClearLogCommand = new DelegateCommand(clearLog);
