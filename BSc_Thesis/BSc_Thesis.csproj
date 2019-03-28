@@ -89,7 +89,6 @@
     <Compile Include="ViewModels\DelegateCommand.cs" />
     <Compile Include="ViewModels\SoundReceiverViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\PortControl.cs" />
     <Page Include="ComCaptureView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

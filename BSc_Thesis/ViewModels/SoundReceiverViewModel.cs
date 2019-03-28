@@ -171,7 +171,6 @@ namespace BSc_Thesis.ViewModels
                 }
             }
         }
-
         public string SelectedRecording
         {
             get => selectedRecording;
@@ -259,7 +258,6 @@ namespace BSc_Thesis.ViewModels
 
         private void SelectFolder()
         {
-
             System.Windows.Forms.FolderBrowserDialog Dialog = new System.Windows.Forms.FolderBrowserDialog();
             while (Dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
             {
@@ -309,7 +307,6 @@ namespace BSc_Thesis.ViewModels
         {
             capture.Dispose();
             capture = null;
-
         }
 
         private void Test()
@@ -342,7 +339,7 @@ namespace BSc_Thesis.ViewModels
 
         private void TestCaptureOnDataAvailable(object sender, WaveInEventArgs args)
         {
-            UpdatePeakMeter();
+            Peak = getMaximumSample(args); ;
         }
 
         private void OpenFolder()
@@ -359,16 +356,10 @@ namespace BSc_Thesis.ViewModels
             }
         }
 
-        private void CaptureOnDataAvailable(object sender, WaveInEventArgs args)
+        private float getMaximumSample(WaveInEventArgs args)
         {
-            System.Diagnostics.Trace.WriteLine("AAA");
-            if ((DateTime.Now - startDT).Seconds > Timeout && isRecording == true)
-            {
-                dumpFile();
-                isRecording = false;
-            }
+            WaveBuffer buffer = new WaveBuffer(args.Buffer);
             float max = 0;
-            var buffer = new WaveBuffer(args.Buffer);
             for (int index = 0; index < args.BytesRecorded / 4; index++)
             {
                 var sample = buffer.FloatBuffer[index];
@@ -377,6 +368,17 @@ namespace BSc_Thesis.ViewModels
                 if (sample > max)
                     max = sample;
             }
+            return max;
+        }
+
+        private void CaptureOnDataAvailable(object sender, WaveInEventArgs args)
+        {
+            if ((DateTime.Now - startDT).Seconds > Timeout && isRecording == true)
+            {
+                dumpFile();
+                isRecording = false;
+            }
+            float max = getMaximumSample(args);
             if (max >= peakLevel)
             {
                 isRecording = true;
@@ -386,15 +388,12 @@ namespace BSc_Thesis.ViewModels
                     currentFileName = String.Format("{0:dd.MM.yyy - HH-mm-ss}.wav", DateTime.Now);
                     writer = new WaveFileWriter(Path.Combine(OutputFolder, currentFileName), capture.WaveFormat);
                 }
-                writer.Write(args.Buffer, 0, args.BytesRecorded);
             }
-            UpdatePeakMeter();
+            if (writer != null)
+                writer.Write(args.Buffer, 0, args.BytesRecorded);
+            Peak = max;
         }
 
-        void UpdatePeakMeter()
-        {
-            synchronizationContext.Post(s => Peak = SelectedDevice.AudioMeterInformation.MasterPeakValue, null);
-        }
         private void Play()
         {
             if (SelectedRecording != null)
