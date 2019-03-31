@@ -339,7 +339,7 @@ namespace BSc_Thesis.ViewModels
 
         private void TestCaptureOnDataAvailable(object sender, WaveInEventArgs args)
         {
-            Peak = getMaximumSample(args); ;
+            Peak = getMaximumSample(args);
         }
 
         private void OpenFolder()
