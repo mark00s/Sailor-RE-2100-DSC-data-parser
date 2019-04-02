@@ -82,11 +82,19 @@
     <Compile Include="ComCaptureView.xaml.cs">
       <DependentUpon>ComCaptureView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\IFileManager.cs" />
+    <Compile Include="Models\IOpenable.cs" />
+    <Compile Include="Models\IPlayable.cs" />
+    <Compile Include="PlayFileManagerView.xaml.cs">
+      <DependentUpon>PlayFileManagerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SoundReceiverView.xaml.cs">
       <DependentUpon>SoundReceiverView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ComCaptureViewModel.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
+    <Compile Include="ViewModels\FileManagerViewModel.cs" />
+    <Compile Include="ViewModels\PlayFileManagerViewModel.cs" />
     <Compile Include="ViewModels\SoundReceiverViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="ComCaptureView.xaml">
@@ -105,6 +113,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PlayFileManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SoundReceiverView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -19,14 +19,14 @@
   <Class Name="BSc_Thesis.ViewModels.ComCaptureViewModel">
     <Position X="0.5" Y="2.75" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>SBAAAAgYEUAMIFEACERAQIpECOEcwBAAE0AEKEhwQLA=</HashCode>
+      <HashCode>SBAAAAgYEUAMIFEAAERAQIoECMEUwBgAE0AECEhwQLA=</HashCode>
       <FileName>ViewModels\ComCaptureViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.Models.Port">
     <Position X="9.5" Y="4" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAIAAAEAEAAAAwAAAAAAAAgAAAAAAAAACA=</HashCode>
       <FileName>Models\Port.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -64,9 +64,56 @@
   <Class Name="BSc_Thesis.ViewModels.SoundReceiverViewModel">
     <Position X="4.75" Y="2.75" Width="4" />
     <TypeIdentifier>
-      <HashCode>HECRAQwAkUAFIBEAEUAAQAhAgAEEkgYBsxgCSBEIRBg=</HashCode>
+      <HashCode>BACBAAAAkAAFABAAEQAAAAhAAAEAkgYBoRgASBEABBg=</HashCode>
       <FileName>ViewModels\SoundReceiverViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="BSc_Thesis.ViewModels.FileManagerViewModel">
+    <Position X="9.75" Y="8" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="BSc_Thesis.ViewModels.FileManagerViewModel.FileExtension">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewModels\FileManagerViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAQgAAUAAIAEAAEAAQAAAAAEEAAAAAgAIAAIAQIA=</HashCode>
+      <FileName>ViewModels\FileManagerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BSc_Thesis.ViewModels.PlayFileManagerViewModel">
+    <Position X="12.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\PlayFileManagerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="BSc_Thesis.Models.IFileManager">
+    <Position X="13.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAQAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IFileManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BSc_Thesis.Models.IOpenable">
+    <Position X="15.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IOpenable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BSc_Thesis.Models.IPlayable">
+    <Position X="11.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Models\IPlayable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

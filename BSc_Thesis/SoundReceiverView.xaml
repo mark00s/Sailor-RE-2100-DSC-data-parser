@@ -154,23 +154,6 @@
             <Button Grid.Column="1" Content="Record" Width="Auto" Command="{Binding RecordCommand}"/>
             <Button Grid.Column="2" Content="Stop"   Width="Auto" Command="{Binding StopCommand}"/>
         </Grid>
-        <Grid Grid.Row="9" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <ListBox Margin="5" ItemsSource="{Binding Recordings}" SelectedItem="{Binding SelectedRecording, Mode=TwoWay}"></ListBox>
-            <StackPanel Orientation="Vertical" Grid.Column="1">
-                <Button Content="Play" Command="{Binding PlayCommand}" Margin="6" Width="75"/>
-                <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="6" Width="75"/>
-                <Button Content="Open Folder" Command="{Binding OpenFolderCommand}" Margin="6" Width="75"/>
-            </StackPanel>
-            <Label Grid.Row="1" Content="{Binding OutputFolder}"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="Select Folder" Command="{Binding SelectFolderCommand}" Margin="6" Width="75"/>
-        </Grid>
+        <local:PlayFileManagerView Grid.Row="9" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

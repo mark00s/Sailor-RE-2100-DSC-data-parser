@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\
 BSc_Thesis
 none
 false
 DEBUG;TRACE
-C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\App.xaml
-3-1518960629
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\App.xaml
+4-1603361982
 
-16-1340144929
-22-1065707579
-ComCaptureView.xaml;MainWindow.xaml;SoundReceiverView.xaml;
+22-1526477037
+22-825915924
+ComCaptureView.xaml;MainWindow.xaml;PlayFileManagerView.xaml;SoundReceiverView.xaml;
 
 True
 

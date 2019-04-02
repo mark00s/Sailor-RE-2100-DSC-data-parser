@@ -92,3 +92,5 @@ C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\D
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\SoundReceiverView.g.cs
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\ComCaptureView.baml
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\SoundReceiverView.baml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\PlayFileManagerView.g.cs
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\PlayFileManagerView.baml

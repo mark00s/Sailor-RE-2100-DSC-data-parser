@@ -16,21 +16,17 @@ namespace BSc_Thesis.ViewModels
     {
         #region Fields
         private int portBitRate = 4800;
-        private int dataBits = 8;
         private SerialPort SP1 = new SerialPort();
         private bool isDtr = true;
         private ObservableCollection<Port> ports;
         private Port portValue;
-        private string stopBitsValue;
-        private string handshakeValue;
-        private string parityValue;
+        private Port port;
         private string comPortTemp = String.Empty;
         private Regex messageRegex = new Regex(@"Incoming[\w\W]+?> \?");
         private string comPortLog;
         private string receivedCalls;
         private string selectedFile;
         private string currentFileName;
-        private bool active = false;
         private Timer resolverTimer;
         private string outputFolder;
         private FileSystemWatcher watcher = new FileSystemWatcher();
@@ -38,11 +34,54 @@ namespace BSc_Thesis.ViewModels
         #endregion
 
         #region Properties
-        public bool IsPortActive {
-            get => active;
+
+        public string StopBitsValue {
+            get => port.StopBitsValue;
             set {
-                if (active != value) {
-                    active = value;
+                if (port.StopBitsValue != value) {
+                    port.StopBitsValue = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string HandshakeValue {
+            get => port.HandshakeValue;
+            set {
+                if (port.HandshakeValue != value) {
+                    port.HandshakeValue = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string ParityValue {
+            get => port.ParityValue;
+            set {
+                if (port.ParityValue != value) {
+                    port.ParityValue = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public bool IsPortActive {
+            get => port.Active;
+            set {
+                if (port.Active != value) {
+                    port.Active = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        /// <summary>
+        ///---------------------------------------------------------------
+        /// </summary>
+        /// 
+        public Port PortValue {
+            get => portValue;
+            set {
+                if (portValue != value) {
+                    portValue = value;
                     OnPropertyChanged();
                 }
             }
@@ -90,53 +129,19 @@ namespace BSc_Thesis.ViewModels
             }
         }
                 
-        public ObservableCollection<string> Parity { get; } = new ObservableCollection<string>() { "Even", "Mark", "None", "Odd", "Space" };
-        public ObservableCollection<string> Handshake { get; } = new ObservableCollection<string>() { "None", "RequestToSend", "RequestToSendXOnXOff", "XOnXOff" };
-        public ObservableCollection<string> StopBits { get; } = new ObservableCollection<string>() { "None", "One", "OnePointFive", "Two" };
+
         public DelegateCommand RefreshPortsCommand { get; }
         public DelegateCommand OpenCommand { get; }
         public DelegateCommand DeleteCommand { get; }
-        public ObservableCollection<string> Files { get; }
-
         public DelegateCommand OpenFolderCommand { get; }
         public DelegateCommand SelectFolderCommand { get; }
+        public ObservableCollection<string> Files { get; }
+        public ObservableCollection<string> Parity { get; } = new ObservableCollection<string>() { "Even", "Mark", "None", "Odd", "Space" };
+        public ObservableCollection<string> Handshake { get; } = new ObservableCollection<string>() { "None", "RequestToSend", "RequestToSendXOnXOff", "XOnXOff" };
+        public ObservableCollection<string> StopBits { get; } = new ObservableCollection<string>() { "None", "One", "OnePointFive", "Two" };
         public DelegateCommand TurnListeningCommand { get; }
         public DelegateCommand ClearLogCommand { get; }
-        public string StopBitsValue {
-            get => stopBitsValue;
-            set {
-                if (stopBitsValue != value) {
-                    stopBitsValue = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public string HandshakeValue {
-            get => handshakeValue;
-            set {
-                if (handshakeValue != value) {
-                    handshakeValue = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public string ParityValue {
-            get => parityValue;
-            set {
-                if (parityValue != value) {
-                    parityValue = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public Port PortValue {
-            get => portValue;
-            set {
-                if (portValue != value) {
-                    portValue = value;
-                    OnPropertyChanged(); }
-            }
-        }
+
         public ObservableCollection<Port> Port {
             get => ports;
             set {
@@ -158,10 +163,10 @@ namespace BSc_Thesis.ViewModels
         }
 
         public int DataBits {
-            get => dataBits;
+            get => port.DataBits;
             set {
-                if (dataBits != value) {
-                    dataBits = value;
+                if (port.DataBits != value) {
+                    port.DataBits = value;
                     OnPropertyChanged();
                 }
             }
@@ -180,6 +185,7 @@ namespace BSc_Thesis.ViewModels
 
         public ComCaptureViewModel()
         {
+            port = new Port();
             Files = new ObservableCollection<string>();
             OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
             if (!Directory.Exists(OutputFolder))

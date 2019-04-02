@@ -3,11 +3,11 @@
 namespace BSc_Thesis
 {
     /// <summary>
-    /// Logika interakcji dla klasy SoundReceiverView.xaml
+    /// Interaction logic for PlayFileManagerView.xaml
     /// </summary>
-    public partial class SoundReceiverView : UserControl
+    public partial class PlayFileManagerView : UserControl
     {
-        public SoundReceiverView()
+        public PlayFileManagerView()
         {
             InitializeComponent();
         }

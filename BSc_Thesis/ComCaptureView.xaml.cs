@@ -1,11 +1,4 @@
-﻿using BSc_Thesis.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.IO.Ports;
-using System.Linq;
-using System.Management;
-using System.Text.RegularExpressions;
-using System.Windows;
+﻿using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
 
