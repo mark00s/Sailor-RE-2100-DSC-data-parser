@@ -103,8 +103,7 @@ namespace BSc_Thesis.ViewModels
                 }
             }
         }
-                
-
+      
         public DelegateCommand RefreshPortsCommand { get; }
         public DelegateCommand OpenCommand { get; }
         public ObservableCollection<string> Parity { get; } = new ObservableCollection<string>() { "Even", "Mark", "None", "Odd", "Space" };
@@ -202,7 +201,7 @@ namespace BSc_Thesis.ViewModels
                 }
             } else if (SP1.IsOpen)
                 SP1.Close();
-            IsPortActive = SP1.IsOpen?true:false;
+            IsPortActive = SP1.IsOpen ? true : false;
         }
 
         private void dataResolver(Object source, ElapsedEventArgs e)
