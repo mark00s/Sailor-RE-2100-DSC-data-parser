@@ -15,7 +15,7 @@ namespace BSc_Thesis.ViewModels
     {
         public DelegateCommand PlayCommand { get; }
         
-        PlayFileManagerViewModel() : base(FileExtension.Wav)
+        public PlayFileManagerViewModel() : base(FileExtension.Wav)
         {
             PlayCommand = new DelegateCommand(Play);
         }

@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <viewModel:SoundReceiverViewModel x:Key="ViewModel" d:IsDataSource="True"/>
+        <viewModel:PlayFileManagerViewModel x:Key="ViewModel" d:IsDataSource="True"/>
     </UserControl.Resources>
     <UserControl.DataContext>
         <StaticResource ResourceKey="ViewModel"/>
