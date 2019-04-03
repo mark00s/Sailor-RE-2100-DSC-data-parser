@@ -10,6 +10,10 @@ namespace BSc_Thesis.ViewModels
 {
     class FileManagerViewModel : ViewModelBase, IFileManager
     {
+        private string outputFolder;
+        private string selectedFile;
+        private string openButtonName;
+
         protected enum FileExtension { Txt, Wav }
         protected string filextension;
         public FileSystemWatcher watcher = new FileSystemWatcher();
@@ -17,21 +21,30 @@ namespace BSc_Thesis.ViewModels
         public DelegateCommand OpenFolderCommand { get; }
         public DelegateCommand SelectFolderCommand { get; }
         public ObservableCollection<string> Files { get; }
-        public string SelectedRecording {
-            get => SelectedRecording;
+        public string SelectedFile {
+            get => selectedFile;
             set {
-                if (SelectedRecording != value) {
-                    SelectedRecording = value;
+                if (selectedFile != value) {
+                    selectedFile = value;
                     OnPropertyChanged();
                     EnableCommands();
                 }
             }
         }
         public string OutputFolder {
-            get => OutputFolder;
+            get => outputFolder;
             set {
-                if (OutputFolder != value) {
-                    OutputFolder = value;
+                if (outputFolder != value) {
+                    outputFolder = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string OpenButtonName {
+            get => openButtonName; set {
+                if (openButtonName != value) {
+                    openButtonName = value;
                     OnPropertyChanged();
                 }
             }
@@ -41,8 +54,10 @@ namespace BSc_Thesis.ViewModels
         {
             switch (fe) {
                 case FileExtension.Txt:
+                    OpenButtonName = "Open";
                     return ".txt";
                 case FileExtension.Wav:
+                    OpenButtonName = "Play";
                     return ".wav";
             }
             return "null";
@@ -76,7 +91,7 @@ namespace BSc_Thesis.ViewModels
 
         private void EnableCommands()
         {
-            DeleteCommand.IsEnabled = SelectedRecording != null;
+            DeleteCommand.IsEnabled = SelectedFile != null;
         }
 
         private void refreshFiles()
@@ -116,11 +131,11 @@ namespace BSc_Thesis.ViewModels
 
         public void Delete()
         {
-            if (SelectedRecording != null) {
+            if (SelectedFile != null) {
                 try {
-                    File.Delete(Path.Combine(OutputFolder, SelectedRecording));
-                    Files.Remove(SelectedRecording);
-                    SelectedRecording = Files.FirstOrDefault();
+                    File.Delete(Path.Combine(OutputFolder, SelectedFile));
+                    Files.Remove(SelectedFile);
+                    SelectedFile = Files.FirstOrDefault();
                 } catch (Exception) {
                     MessageBox.Show("Could not delete recording");
                 }

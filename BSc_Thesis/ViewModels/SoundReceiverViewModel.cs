@@ -6,10 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using BSc_Thesis.Models;
+using System.Diagnostics;
 
 namespace BSc_Thesis.ViewModels
 {
-    class SoundReceiverViewModel : ViewModelBase
+    class SoundReceiverViewModel : FileManagerViewModel, IPlayable
     {
         #region Fields
         private WasapiCapture capture;
@@ -17,8 +19,17 @@ namespace BSc_Thesis.ViewModels
         private DateTime startDT;
         private bool isRecording = false;
         private string currentFileName;
-        private string selectedRecording;
         private readonly SynchronizationContext synchronizationContext;
+        private float timeout = 2.0f;
+        private MMDevice selectedDevice;
+        private int bitDepth;
+        private int channelCount;
+        private int shareModeIndex;
+        private int sampleRate;
+        private int sampleTypeIndex;
+        private float peakLevel;
+        private float recordLevel;
+        private float peak;
         #endregion
 
         #region Properties
@@ -26,86 +37,89 @@ namespace BSc_Thesis.ViewModels
         public DelegateCommand StopCommand { get; }
         public ObservableCollection<MMDevice> CaptureDevices { get; }
         public DelegateCommand TestCommand { get; }
+        public DelegateCommand PlayCommand { get; }
+
         public float Timeout {
-            get => 22;
+            get => timeout;
             set {
-                if (Timeout != value) {
-                    Timeout = value;
+                if (timeout != value) {
+                    timeout = value;
                     OnPropertyChanged();
                 }
             }
         }
         public MMDevice SelectedDevice {
-            get => SelectedDevice;
+            get => selectedDevice;
             set {
-                if (SelectedDevice != value) {
-                    SelectedDevice = value;
+                if (selectedDevice != value) {
+                    selectedDevice = value;
                     OnPropertyChanged();
                     GetDefaultRecordingFormat(value);
                 }
             }
         }
+
         public int BitDepth {
-            get => BitDepth;
+            get => bitDepth;
             set {
-                if (BitDepth != value) {
-                    BitDepth = value;
+                if (bitDepth != value) {
+                    bitDepth = value;
                     OnPropertyChanged();
                 }
             }
         }
         public int ChannelCount {
-            get => ChannelCount;
+            get => channelCount;
             set {
-                if (ChannelCount != value) {
-                    ChannelCount = value;
+                if (channelCount != value) {
+                    channelCount = value;
                     OnPropertyChanged();
                 }
             }
         }
         public int ShareModeIndex {
-            get => ShareModeIndex;
+            get => shareModeIndex;
             set {
-                if (ShareModeIndex != value) {
-                    ShareModeIndex = value;
+                if (shareModeIndex != value) {
+                    shareModeIndex = value;
                     OnPropertyChanged();
                 }
             }
         }
         public int SampleRate {
-            get => SampleRate;
+            get => sampleRate;
             set {
-                if (SampleRate != value) {
-                    SampleRate = value;
+                if (sampleRate != value) {
+                    sampleRate = value;
                     OnPropertyChanged();
                 }
             }
         }
         public int SampleTypeIndex {
-            get => SampleTypeIndex;
+            get => sampleTypeIndex;
             set {
-                if (SampleTypeIndex != value) {
-                    SampleTypeIndex = value;
+                if (sampleTypeIndex != value) {
+                    sampleTypeIndex = value;
                     OnPropertyChanged();
-                    BitDepth = SampleTypeIndex == 1 ? 16 : 32;
+                    BitDepth = sampleTypeIndex == 1 ? 16 : 32;
                     OnPropertyChanged("IsBitDepthConfigurable");
                 }
             }
         }
         public float PeakLevel {
-            get => PeakLevel;
+            get => peakLevel;
             set {
-                if (PeakLevel != value) {
-                    PeakLevel = value;
+                if (peakLevel != value) {
+                    peakLevel = value;
                     OnPropertyChanged();
                 }
             }
         }
         public float RecordLevel {
-            get => RecordLevel;
+            get => recordLevel;
             set {
-                if (RecordLevel != value) {
-                    RecordLevel = value;
+                if (recordLevel != value) {
+                    recordLevel = value;
                     if (capture != null) {
                         SelectedDevice.AudioEndpointVolume.MasterVolumeLevelScalar = value;
                     }
@@ -114,20 +128,20 @@ namespace BSc_Thesis.ViewModels
             }
         }
         public float Peak {
-            get => Peak;
+            get => peak;
             set {
                 if (Peak != value) {
-                    Peak = value;
+                    peak = value;
                     OnPropertyChanged();
                 }
             }
         }
         #endregion
 
-        public SoundReceiverViewModel()
+        public SoundReceiverViewModel() : base(FileExtension.Wav)
         {
-            //Timeout = 2.0f;
             var enumerator = new MMDeviceEnumerator();
+            PlayCommand = new DelegateCommand(Play);
             var defaultDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console);
             CaptureDevices = new ObservableCollection<MMDevice>(enumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active).AsEnumerable());
             SelectedDevice = CaptureDevices.FirstOrDefault(c => c.ID == defaultDevice.ID);
@@ -137,6 +151,13 @@ namespace BSc_Thesis.ViewModels
             synchronizationContext = SynchronizationContext.Current;
             startDT = DateTime.Now;
         }
+
+        public void Play()
+        {
+            if (SelectedFile != null)
+                Process.Start(Path.Combine(OutputFolder, SelectedFile));
+        }
+
         private void Record()
         {
             try {
@@ -250,17 +271,12 @@ namespace BSc_Thesis.ViewModels
                 startDT = DateTime.Now;
                 if (writer == null) {
                     currentFileName = String.Format("{0:dd.MM.yyy - HH-mm-ss}.wav", DateTime.Now);
- //                   writer = new WaveFileWriter(Path.Combine(OutputFolder, currentFileName), capture.WaveFormat);
+                    writer = new WaveFileWriter(Path.Combine(OutputFolder, currentFileName), capture.WaveFormat);
                 }
             }
             if (writer != null)
                 writer.Write(args.Buffer, 0, args.BytesRecorded);
             Peak = max;
-        }
-
-        private void Play()
-        {
-
         }
 
         private void Stop()

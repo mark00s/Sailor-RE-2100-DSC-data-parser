@@ -1,5 +1,6 @@
 ﻿using BSc_Thesis.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -12,25 +13,21 @@ using System.Windows;
 
 namespace BSc_Thesis.ViewModels
 {
-    class ComCaptureViewModel : ViewModelBase
+    class ComCaptureViewModel : FileManagerViewModel, IOpenable
     {
         #region Fields
         private int portBitRate = 4800;
         private SerialPort SP1 = new SerialPort();
         private bool isDtr = true;
-        private ObservableCollection<Port> ports;
+        private ObservableCollection<string> portNames;
         private Port portValue;
         private Port port;
         private string comPortTemp = String.Empty;
         private Regex messageRegex = new Regex(@"Incoming[\w\W]+?> \?");
         private string comPortLog;
         private string receivedCalls;
-        private string selectedFile;
         private string currentFileName;
         private Timer resolverTimer;
-        private string outputFolder;
-        private FileSystemWatcher watcher = new FileSystemWatcher();
-
         #endregion
 
         #region Properties
@@ -97,28 +94,6 @@ namespace BSc_Thesis.ViewModels
             }
         }
 
-        public string SelectedFile
-        {
-            get => selectedFile;
-            set {
-                if (selectedFile != value) {
-                    selectedFile = value;
-                    OnPropertyChanged();
-                }
-            }
-            
-        }
-
-        public string OutputFolder {
-            get => outputFolder;
-            set {
-                if (outputFolder != value) {
-                    outputFolder = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public string ReceivedCalls {
             get => receivedCalls;
             set {
@@ -132,21 +107,17 @@ namespace BSc_Thesis.ViewModels
 
         public DelegateCommand RefreshPortsCommand { get; }
         public DelegateCommand OpenCommand { get; }
-        public DelegateCommand DeleteCommand { get; }
-        public DelegateCommand OpenFolderCommand { get; }
-        public DelegateCommand SelectFolderCommand { get; }
-        public ObservableCollection<string> Files { get; }
         public ObservableCollection<string> Parity { get; } = new ObservableCollection<string>() { "Even", "Mark", "None", "Odd", "Space" };
         public ObservableCollection<string> Handshake { get; } = new ObservableCollection<string>() { "None", "RequestToSend", "RequestToSendXOnXOff", "XOnXOff" };
         public ObservableCollection<string> StopBits { get; } = new ObservableCollection<string>() { "None", "One", "OnePointFive", "Two" };
         public DelegateCommand TurnListeningCommand { get; }
         public DelegateCommand ClearLogCommand { get; }
 
-        public ObservableCollection<Port> Port {
-            get => ports;
+        public ObservableCollection<string> PortNames {
+            get => portNames;
             set {
-                if (ports != value) {
-                    ports = value;
+                if (portNames != value) {
+                    portNames = value;
                     OnPropertyChanged();
                 }
             }
@@ -183,10 +154,9 @@ namespace BSc_Thesis.ViewModels
         }
         #endregion
 
-        public ComCaptureViewModel()
+        public ComCaptureViewModel() : base(FileExtension.Txt)
         {
             port = new Port();
-            Files = new ObservableCollection<string>();
             OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
             if (!Directory.Exists(OutputFolder))
                 Directory.CreateDirectory(OutputFolder);
@@ -197,94 +167,14 @@ namespace BSc_Thesis.ViewModels
             resolverTimer.Elapsed += dataResolver;
             resolverTimer.AutoReset = true;
             resolverTimer.Enabled = true;
-            DeleteCommand = new DelegateCommand(Delete);
             OpenCommand = new DelegateCommand(Open);
-            OpenFolderCommand = new DelegateCommand(OpenFolder);
-            SelectFolderCommand = new DelegateCommand(SelectFolder);
-            foreach (var file in Directory.GetFiles(OutputFolder))
-                if (Path.GetExtension(file) == ".txt")
-                    Files.Add(Path.GetFileName(file));
-            watcher.Path = OutputFolder;
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
-            watcher.Created += new FileSystemEventHandler(OnChanged);
-            watcher.Deleted += new FileSystemEventHandler(OnChanged);
-            watcher.Renamed += new RenamedEventHandler(OnRenamed);
-            watcher.EnableRaisingEvents = true;
             refreshPorts();
         }
 
-        private void OnChanged(object source, FileSystemEventArgs e)
+        public void Open()
         {
-            Application.Current.Dispatcher.BeginInvoke(
-                System.Windows.Threading.DispatcherPriority.Background,
-                new Action(() => {
-                    Files.Clear();
-                    foreach (var file in Directory.GetFiles(OutputFolder))
-                        if (Path.GetExtension(file) == ".txt")
-                            Files.Add(Path.GetFileName(file));
-                    OnPropertyChanged("Files");
-                }));
-        }
-
-        private void Open()
-        {
-            if (selectedFile != null)
+            if (SelectedFile != null)
                 Process.Start(Path.Combine(OutputFolder, SelectedFile));
-        }
-
-        private void SelectFolder()
-        {
-            System.Windows.Forms.FolderBrowserDialog Dialog = new System.Windows.Forms.FolderBrowserDialog();
-            while (Dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) {
-                Dialog.Reset();
-            }
-            OutputFolder = Dialog.SelectedPath;
-            watcher.Path = OutputFolder;
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
-            watcher.Created += new FileSystemEventHandler(OnChanged);
-            watcher.Deleted += new FileSystemEventHandler(OnChanged);
-            watcher.Renamed += new RenamedEventHandler(OnRenamed);
-            watcher.EnableRaisingEvents = true;
-            Application.Current.Dispatcher.BeginInvoke(
-            System.Windows.Threading.DispatcherPriority.Background,
-            new Action(() => {
-                Files.Clear();
-                foreach (var file in Directory.GetFiles(OutputFolder))
-                    if (Path.GetExtension(file) == ".txt")
-                        Files.Add(Path.GetFileName(file));
-                OnPropertyChanged("Files");
-            }));
-        }
-
-        private void OnRenamed(object source, RenamedEventArgs e)
-        {
-            Application.Current.Dispatcher.BeginInvoke(
-            System.Windows.Threading.DispatcherPriority.Background,
-            new Action(() => {
-                Files.Clear();
-                foreach (var file in Directory.GetFiles(OutputFolder))
-                    if (Path.GetExtension(file) == ".txt")
-                        Files.Add(Path.GetFileName(file));
-                OnPropertyChanged("Files");
-            }));
-        }
-
-        private void Delete()
-        {
-            if (SelectedFile != null) {
-                try {
-                    File.Delete(Path.Combine(OutputFolder, SelectedFile));
-                    Files.Remove(SelectedFile);
-                    SelectedFile = Files.FirstOrDefault();
-                } catch (Exception) {
-                    MessageBox.Show("Could not delete File");
-                }
-            }
-        }
-
-        private void OpenFolder()
-        {
-            Process.Start(OutputFolder);
         }
 
         private void clearLog()
@@ -412,9 +302,9 @@ namespace BSc_Thesis.ViewModels
             using (var searcher = new ManagementObjectSearcher("SELECT * FROM WIN32_SerialPort")) {
                 string[] portnames = SerialPort.GetPortNames();
                 var x = searcher.Get().Cast<ManagementBaseObject>().ToList();
-                Port = new ObservableCollection<Port>((from n in portnames
-                                                       join p in x on n equals p["DeviceID"].ToString() into np
-                                                       select new Port() { Name = n }));
+                PortNames = new ObservableCollection<string>((from n in portnames join p in x on n
+                                                          equals p["DeviceID"].ToString() 
+                                                          into np select n ));
             }
         }
     }

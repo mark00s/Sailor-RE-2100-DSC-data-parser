@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="BSc_Thesis.ViewModelBase">
-    <Position X="2" Y="0.5" Width="4.25" />
+    <Position X="4" Y="0.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModels\ViewModelBase.cs</FileName>
@@ -9,7 +9,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BSc_Thesis.ViewModels.DelegateCommand" BaseTypeListCollapsed="true">
-    <Position X="9.5" Y="0.5" Width="4.25" />
+    <Position X="21.25" Y="0.75" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAACAQQAAEUAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModels\DelegateCommand.cs</FileName>
@@ -17,28 +17,29 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="BSc_Thesis.ViewModels.ComCaptureViewModel">
-    <Position X="0.5" Y="2.75" Width="3.75" />
+    <Position X="0.5" Y="2.25" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>SBAAAAgYEUAMIFEAAERAQIoECMEUwBgAE0AECEhwQLA=</HashCode>
+      <HashCode>QBAAAAAYEAAMIFAAAEBAAIoACMAQwBgAEUAECEhwADA=</HashCode>
       <FileName>ViewModels\ComCaptureViewModel.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="BSc_Thesis.Models.Port">
-    <Position X="9.5" Y="4" Width="2.25" />
+    <Position X="21.25" Y="6.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAIAAAEAEAAAAwAAAAAAAAgAAAAAAAAACA=</HashCode>
       <FileName>Models\Port.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.App">
-    <Position X="12.25" Y="4" Width="1.25" />
+    <Position X="24.25" Y="4.25" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.ComCaptureView" BaseTypeListCollapsed="true">
-    <Position X="14" Y="0.5" Width="2.75" />
+    <Position X="21.25" Y="4.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAE=</HashCode>
       <FileName>ComCaptureView.xaml.cs</FileName>
@@ -46,7 +47,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="BSc_Thesis.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="14" Y="4.25" Width="2.75" />
+    <Position X="15.25" Y="6.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
@@ -54,7 +55,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="BSc_Thesis.SoundReceiverView" BaseTypeListCollapsed="true">
-    <Position X="14" Y="2.75" Width="2.75" />
+    <Position X="21.25" Y="9" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SoundReceiverView.xaml.cs</FileName>
@@ -62,14 +63,15 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="BSc_Thesis.ViewModels.SoundReceiverViewModel">
-    <Position X="4.75" Y="2.75" Width="4" />
+    <Position X="8.5" Y="2.25" Width="4" />
     <TypeIdentifier>
-      <HashCode>BACBAAAAkAAFABAAEQAAAAhAAAEAkgYBoRgASBEABBg=</HashCode>
+      <HashCode>FACRAQQAkAAFABAAEQAAQAhAgAEAkgIBsRgCSBEIBBg=</HashCode>
       <FileName>ViewModels\SoundReceiverViewModel.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="BSc_Thesis.ViewModels.FileManagerViewModel">
-    <Position X="9.75" Y="8" Width="1.5" />
+    <Position X="5.25" Y="2.75" Width="2.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -80,36 +82,36 @@
         </TypeIdentifier>
       </Enum>
     </NestedTypes>
+    <InheritanceLine Type="BSc_Thesis.ViewModelBase" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.125" Y="2.055" />
+        <Point X="6.125" Y="2.778" />
+        <Point X="6.375" Y="2.778" />
+        <Point X="6.375" Y="2.75" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAQgAAUAAIAEAAEAAQAAAAAEEAAAAAgAIAAIAQIA=</HashCode>
+      <HashCode>CAAAAQgAAUgAIAEIAAQAQAAEAAEEAAAAAgAIAAIAQIA=</HashCode>
       <FileName>ViewModels\FileManagerViewModel.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="BSc_Thesis.ViewModels.PlayFileManagerViewModel">
-    <Position X="12.25" Y="11.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
-      <FileName>ViewModels\PlayFileManagerViewModel.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.1" />
   </Class>
   <Interface Name="BSc_Thesis.Models.IFileManager">
-    <Position X="13.5" Y="7" Width="1.5" />
+    <Position X="19.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAQAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\IFileManager.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="BSc_Thesis.Models.IOpenable">
-    <Position X="15.25" Y="7" Width="1.5" />
+    <Position X="19.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\IOpenable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="BSc_Thesis.Models.IPlayable">
-    <Position X="11.75" Y="7" Width="1.5" />
+    <Position X="19.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
       <FileName>Models\IPlayable.cs</FileName>

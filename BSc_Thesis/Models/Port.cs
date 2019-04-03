@@ -10,9 +10,6 @@ namespace BSc_Thesis.Models
         public string ParityValue { get; set; }
         public bool Active { get; set; }
         public int DataBits { get; set; } = 8;
-
-
-
         public override string ToString()
         {
             return Name;

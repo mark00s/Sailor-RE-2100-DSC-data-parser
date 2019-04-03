@@ -154,6 +154,6 @@
             <Button Grid.Column="1" Content="Record" Width="Auto" Command="{Binding RecordCommand}"/>
             <Button Grid.Column="2" Content="Stop"   Width="Auto" Command="{Binding StopCommand}"/>
         </Grid>
-        <local:PlayFileManagerView Grid.Row="9" Grid.ColumnSpan="2"/>
+        <local:FileManagerView Grid.Row="9" Grid.ColumnSpan="2" DataContext="{StaticResource ViewModel}"/>
     </Grid>
 </UserControl>

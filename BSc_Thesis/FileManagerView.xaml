@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BSc_Thesis.PlayFileManagerView"
+﻿<UserControl x:Class="BSc_Thesis.FileManagerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,12 +8,7 @@
              xmlns:viewModel="clr-namespace:BSc_Thesis.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <viewModel:PlayFileManagerViewModel x:Key="ViewModel" d:IsDataSource="True"/>
-    </UserControl.Resources>
-    <UserControl.DataContext>
-        <StaticResource ResourceKey="ViewModel"/>
-    </UserControl.DataContext>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -25,7 +20,7 @@
         </Grid.RowDefinitions>
         <ListBox Margin="5" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile, Mode=TwoWay}"></ListBox>
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <Button Content="Play" Command="{Binding PlayCommand}" Margin="6" Width="75"/>
+            <Button Content="{Binding OpenButtonName}" Command="{Binding PlayCommand}" Margin="6" Width="75" Height="20"/>
             <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="6" Width="75"/>
             <Button Content="Open Folder" Command="{Binding OpenFolderCommand}" Margin="6" Width="75"/>
         </StackPanel>
