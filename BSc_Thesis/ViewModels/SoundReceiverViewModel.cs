@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace BSc_Thesis.ViewModels
 {
-    class SoundReceiverViewModel : FileManagerViewModel, IPlayable
+    class SoundReceiverViewModel : FileManagerViewModel
     {
         #region Fields
         private WasapiCapture capture;
@@ -22,14 +22,8 @@ namespace BSc_Thesis.ViewModels
         private readonly SynchronizationContext synchronizationContext;
         private float timeout = 2.0f;
         private MMDevice selectedDevice;
-        private int bitDepth;
-        private int channelCount;
-        private int shareModeIndex;
-        private int sampleRate;
-        private int sampleTypeIndex;
-        private float peakLevel;
-        private float recordLevel;
-        private float peak;
+        private SoundData sd = new SoundData();
+
         #endregion
 
         #region Properties
@@ -37,8 +31,6 @@ namespace BSc_Thesis.ViewModels
         public DelegateCommand StopCommand { get; }
         public ObservableCollection<MMDevice> CaptureDevices { get; }
         public DelegateCommand TestCommand { get; }
-        public DelegateCommand PlayCommand { get; }
-
         public float Timeout {
             get => timeout;
             set {
@@ -58,68 +50,57 @@ namespace BSc_Thesis.ViewModels
                 }
             }
         }
-
+        public int SampleTypeIndex { get => 0; set { } }
         public int BitDepth {
-            get => bitDepth;
+            get => sd.BitDepth;
             set {
-                if (bitDepth != value) {
-                    bitDepth = value;
+                if (sd.BitDepth != value) {
+                    sd.BitDepth = value;
                     OnPropertyChanged();
                 }
             }
         }
         public int ChannelCount {
-            get => channelCount;
+            get => sd.ChannelCount;
             set {
-                if (channelCount != value) {
-                    channelCount = value;
+                if (sd.ChannelCount != value) {
+                    sd.ChannelCount = value;
                     OnPropertyChanged();
                 }
             }
         }
         public int ShareModeIndex {
-            get => shareModeIndex;
+            get => sd.ShareModeIndex;
             set {
-                if (shareModeIndex != value) {
-                    shareModeIndex = value;
+                if (sd.ShareModeIndex != value) {
+                    sd.ShareModeIndex = value;
                     OnPropertyChanged();
                 }
             }
         }
         public int SampleRate {
-            get => sampleRate;
+            get => sd.SampleRate;
             set {
-                if (sampleRate != value) {
-                    sampleRate = value;
+                if (sd.SampleRate != value) {
+                    sd.SampleRate = value;
                     OnPropertyChanged();
-                }
-            }
-        }
-        public int SampleTypeIndex {
-            get => sampleTypeIndex;
-            set {
-                if (sampleTypeIndex != value) {
-                    sampleTypeIndex = value;
-                    OnPropertyChanged();
-                    BitDepth = sampleTypeIndex == 1 ? 16 : 32;
-                    OnPropertyChanged("IsBitDepthConfigurable");
                 }
             }
         }
         public float PeakLevel {
-            get => peakLevel;
+            get => sd.PeakLevel;
             set {
-                if (peakLevel != value) {
-                    peakLevel = value;
+                if (sd.PeakLevel != value) {
+                    sd.PeakLevel = value;
                     OnPropertyChanged();
                 }
             }
         }
         public float RecordLevel {
-            get => recordLevel;
+            get => sd.RecordLevel;
             set {
-                if (recordLevel != value) {
-                    recordLevel = value;
+                if (sd.RecordLevel != value) {
+                    sd.RecordLevel = value;
                     if (capture != null) {
                         SelectedDevice.AudioEndpointVolume.MasterVolumeLevelScalar = value;
                     }
@@ -128,10 +109,10 @@ namespace BSc_Thesis.ViewModels
             }
         }
         public float Peak {
-            get => peak;
+            get => sd.Peak;
             set {
                 if (Peak != value) {
-                    peak = value;
+                    sd.Peak = value;
                     OnPropertyChanged();
                 }
             }
@@ -141,7 +122,6 @@ namespace BSc_Thesis.ViewModels
         public SoundReceiverViewModel() : base(FileExtension.Wav)
         {
             var enumerator = new MMDeviceEnumerator();
-            PlayCommand = new DelegateCommand(Play);
             var defaultDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console);
             CaptureDevices = new ObservableCollection<MMDevice>(enumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active).AsEnumerable());
             SelectedDevice = CaptureDevices.FirstOrDefault(c => c.ID == defaultDevice.ID);
@@ -151,28 +131,32 @@ namespace BSc_Thesis.ViewModels
             synchronizationContext = SynchronizationContext.Current;
             startDT = DateTime.Now;
         }
-
-        public void Play()
+        private void Record()
         {
-            if (SelectedFile != null)
-                Process.Start(Path.Combine(OutputFolder, SelectedFile));
+            startCapturing(false);
+        }
+        private void Test()
+        {
+            startCapturing(true);
         }
 
-        private void Record()
+        private void startCapturing(bool isTest = false)
         {
             try {
                 if (SelectedDevice.DataFlow == DataFlow.Capture) {
                     capture = new WasapiCapture(SelectedDevice);
-                    capture.WaveFormat =
-                        SampleTypeIndex == 0 ? WaveFormat.CreateIeeeFloatWaveFormat(SampleRate, ChannelCount) :
-                        new WaveFormat(SampleRate, BitDepth, ChannelCount);
+                    capture.WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(SampleRate, ChannelCount);
                 } else
                     capture = new WasapiLoopbackCapture(SelectedDevice);
                 capture.ShareMode = ShareModeIndex == 0 ? AudioClientShareMode.Shared : AudioClientShareMode.Exclusive;
                 RecordLevel = SelectedDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
                 capture.StartRecording();
                 capture.RecordingStopped += OnRecordingStopped;
-                capture.DataAvailable += CaptureOnDataAvailable;
+                if (isTest) {
+                    capture.DataAvailable += TestCaptureOnDataAvailable;
+                } else {
+                    capture.DataAvailable += CaptureOnDataAvailable;
+                }
                 RecordCommand.IsEnabled = false;
                 TestCommand.IsEnabled = false;
                 StopCommand.IsEnabled = true;
@@ -181,12 +165,9 @@ namespace BSc_Thesis.ViewModels
             }
         }
 
-
-
         private void GetDefaultRecordingFormat(MMDevice value)
         {
             WasapiCapture c = value.DataFlow == DataFlow.Capture ? c = new WasapiCapture(value) : c = new WasapiLoopbackCapture(value);
-            SampleTypeIndex = c.WaveFormat.Encoding == WaveFormatEncoding.IeeeFloat ? 0 : 1;
             SampleRate = c.WaveFormat.SampleRate;
             BitDepth = c.WaveFormat.BitsPerSample;
             ChannelCount = c.WaveFormat.Channels;
@@ -207,29 +188,6 @@ namespace BSc_Thesis.ViewModels
         {
             capture.Dispose();
             capture = null;
-        }
-
-        private void Test()
-        {
-            try {
-                if (SelectedDevice.DataFlow == DataFlow.Capture) {
-                    capture = new WasapiCapture(SelectedDevice);
-                    capture.WaveFormat =
-                        SampleTypeIndex == 0 ? WaveFormat.CreateIeeeFloatWaveFormat(SampleRate, ChannelCount) :
-                        new WaveFormat(SampleRate, BitDepth, ChannelCount);
-                } else
-                    capture = new WasapiLoopbackCapture(SelectedDevice);
-                capture.ShareMode = ShareModeIndex == 0 ? AudioClientShareMode.Shared : AudioClientShareMode.Exclusive;
-                RecordLevel = SelectedDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
-                capture.StartRecording();
-                RecordCommand.IsEnabled = false;
-                TestCommand.IsEnabled = false;
-                StopCommand.IsEnabled = true;
-                capture.DataAvailable += TestCaptureOnDataAvailable;
-                capture.RecordingStopped += OnRecordingStopped;
-            } catch (Exception e) {
-                MessageBox.Show(e.Message);
-            }
         }
 
         private void TestCaptureOnDataAvailable(object sender, WaveInEventArgs args)

@@ -40,7 +40,7 @@
         <TextBlock HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="Capture Device" Margin="5,0,0,0"/>
         <ComboBox Grid.Row="1" ItemsSource="{Binding CaptureDevices}" SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"  VerticalAlignment="Center"/>
         <TextBlock HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Text="Sample Rate" VerticalAlignment="Center" Margin="5,0,0,0"/>
-        <TextBlock HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" Text="Bit Depth" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        <TextBlock HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" IsEnabled="False" Text="Bit Depth" VerticalAlignment="Center" Margin="5,0,0,0"/>
         <TextBlock HorizontalAlignment="Left" Grid.Row="4" TextWrapping="Wrap" Text="Channel Count" VerticalAlignment="Center" Margin="5,0,0,0"/>
         <TextBlock HorizontalAlignment="Left" Grid.Row="5" TextWrapping="Wrap" Text="Sample Type" VerticalAlignment="Center" Margin="5,0,0,0"/>
         <TextBox Height="23" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="{Binding SampleRate, Mode=TwoWay}" VerticalAlignment="Center"/>
@@ -48,7 +48,6 @@
         <TextBox Height="23" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" Text="{Binding ChannelCount, Mode=TwoWay}" VerticalAlignment="Center"/>
         <ComboBox  Grid.Row="5" SelectedIndex="{Binding SampleTypeIndex, Mode=TwoWay}" VerticalAlignment="Center">
             <TextBlock><Run Text="IEEE Float"/></TextBlock>
-            <TextBlock><Run Text="PCM"/></TextBlock>
         </ComboBox>
         <Label Grid.Row="6" Content="Timeout (in seconds):"/>
         <xctk:SingleUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Timeout}"/>

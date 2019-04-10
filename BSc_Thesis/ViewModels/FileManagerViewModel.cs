@@ -19,6 +19,7 @@ namespace BSc_Thesis.ViewModels
         public FileSystemWatcher watcher = new FileSystemWatcher();
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand OpenFolderCommand { get; }
+        public DelegateCommand OpenCommand { get; }
         public DelegateCommand SelectFolderCommand { get; }
         public ObservableCollection<string> Files { get; }
         public string SelectedFile {
@@ -40,6 +41,7 @@ namespace BSc_Thesis.ViewModels
                 }
             }
         }
+
 
         public string OpenButtonName {
             get => openButtonName; set {
@@ -70,6 +72,7 @@ namespace BSc_Thesis.ViewModels
             DeleteCommand = new DelegateCommand(Delete);
             SelectFolderCommand = new DelegateCommand(SelectFolder);
             OpenFolderCommand = new DelegateCommand(OpenFolder);
+            OpenCommand = new DelegateCommand(Open);
             OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
             Directory.CreateDirectory(OutputFolder);
             foreach (var file in Directory.GetFiles(OutputFolder))
@@ -147,5 +150,10 @@ namespace BSc_Thesis.ViewModels
             Process.Start(OutputFolder);
         }
 
+        public void Open()
+        {
+            if (SelectedFile != null)
+                Process.Start(Path.Combine(OutputFolder, SelectedFile));
+        }
     }
 }

@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         <ListBox Margin="5" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile, Mode=TwoWay}"></ListBox>
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <Button Content="{Binding OpenButtonName}" Command="{Binding PlayCommand}" Margin="6" Width="75" Height="20"/>
+            <Button Content="{Binding OpenButtonName}" Command="{Binding OpenCommand}" Margin="6" Width="75" Height="20"/>
             <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="6" Width="75"/>
             <Button Content="Open Folder" Command="{Binding OpenFolderCommand}" Margin="6" Width="75"/>
         </StackPanel>

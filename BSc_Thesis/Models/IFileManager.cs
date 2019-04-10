@@ -12,6 +12,7 @@ namespace BSc_Thesis.Models
     {
         void Delete();
         void OpenFolder();
+        void Open();
         void SelectFolder();
     }
 }
