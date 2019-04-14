@@ -19,7 +19,6 @@ namespace BSc_Thesis.ViewModels
         private DateTime startDT;
         private bool isRecording = false;
         private string currentFileName;
-        private readonly SynchronizationContext synchronizationContext;
         private float timeout = 2.0f;
         private MMDevice selectedDevice;
         private SoundData sd = new SoundData();
@@ -128,7 +127,6 @@ namespace BSc_Thesis.ViewModels
             RecordCommand = new DelegateCommand(Record);
             StopCommand = new DelegateCommand(Stop) { IsEnabled = false };
             TestCommand = new DelegateCommand(Test);
-            synchronizationContext = SynchronizationContext.Current;
             startDT = DateTime.Now;
         }
         private void Record()

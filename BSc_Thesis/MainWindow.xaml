@@ -6,14 +6,16 @@
         xmlns:local="clr-namespace:BSc_Thesis"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800"
+        Title="MainWindow" Height="500" Width="1200"
         MinHeight="500" MinWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <local:ComCaptureView/>
-        <local:SoundReceiverView Grid.Column="1"/>
+        <local:gMapView Grid.Column="0"/>
+        <local:ComCaptureView Grid.Column="1"/>
+        <local:SoundReceiverView Grid.Column="2"/>
     </Grid>
 </Window>

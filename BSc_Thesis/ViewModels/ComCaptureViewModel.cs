@@ -145,7 +145,6 @@ namespace BSc_Thesis.ViewModels
             resolverTimer = new Timer(50);
             resolverTimer.Elapsed += dataResolver;
             resolverTimer.AutoReset = true;
-            resolverTimer.Enabled = true;
             refreshPorts();
         }
         private void clearLog()
@@ -168,11 +167,15 @@ namespace BSc_Thesis.ViewModels
                     sp.DtrEnable = IsDtr;
                     sp.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                     sp.Open();
+                    resolverTimer.Enabled = true;
+
                 } catch (Exception e) {
                     MessageBox.Show(e.Message);
                 }
-            } else if (sp.IsOpen)
+            } else if (sp.IsOpen) {
                 sp.Close();
+                resolverTimer.Enabled = false;
+            }
             IsPortActive = sp.IsOpen ? true : false;
         }
 
@@ -189,7 +192,7 @@ namespace BSc_Thesis.ViewModels
 
         private void dataResolver(Object source, ElapsedEventArgs e)
         {
-            while (true) {
+            while (comPortTemp != string.Empty) {
                 var regexResult = messageRegex.Match(comPortTemp);
                 if (!regexResult.Success)
                     break;
@@ -212,6 +215,11 @@ namespace BSc_Thesis.ViewModels
                             }
                             if (s2[0] == "Cat") {
                                 s2[1] = ddr.ResolveCategory(s2[1]);
+                            }
+                            if (s2[0] == "Pos") {
+                                s2[1] = ddr.ResolveCategory(s2[1]);
+                                string[] s3 = s2[1].Split(',');
+                                Services.MessengerHub.PublishAsync<GeoMessage>(new GeoMessage(this, s3[0], s3[1]));
                             }
                             result += s2[0] + ": " + s2[1] + '\n';
                         } else {

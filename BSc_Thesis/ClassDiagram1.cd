@@ -19,14 +19,14 @@
   <Class Name="BSc_Thesis.ViewModels.ComCaptureViewModel">
     <Position X="0.5" Y="1.75" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AJAAAACQEAAICFAAAEBAAIoAAIAQwBgAEQAECEgQADA=</HashCode>
+      <HashCode>AJAAAACQEAAICFAAAEBAAIoAAAAQwBgAEQAEiEgQADA=</HashCode>
       <FileName>ViewModels\ComCaptureViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.Models.Port" Collapsed="true">
     <Position X="20.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAIAAAAAEAAAAwAAAAAAAAgAAAAgAAAACA=</HashCode>
+      <HashCode>AIAAAAAAAAAIAAAAAEAAAAgAAAAAAAAgAAAAAAAAACA=</HashCode>
       <FileName>Models\Port.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -68,7 +68,6 @@ C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\ro\Xceed.Wpf.AvalonD
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
-C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.csprojAssemblyReference.cache
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\MainWindow.g.cs
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\App.g.cs
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis_MarkupCompile.cache
@@ -95,3 +94,22 @@ C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\D
 C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Debug\PlayFileManagerView.baml
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\FileManagerView.g.cs
 C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\FileManagerView.baml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\EntityFramework.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\GMap.NET.Core.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\GMap.NET.WindowsForms.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\GMap.NET.WindowsPresentation.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\Newtonsoft.Json.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\System.Data.SQLite.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\EntityFramework.xml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\Newtonsoft.Json.xml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\System.Data.SQLite.xml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\bin\Debug\System.Data.SQLite.dll.config
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\gMapView.g.cs
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\gMapView.baml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\PinControl.g.cs
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\PinControl.baml
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Debug\BSc_Thesis.csprojAssemblyReference.cache
