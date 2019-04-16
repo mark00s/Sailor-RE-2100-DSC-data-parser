@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\obj\Release\
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\obj\Release\
 BSc_Thesis
 none
 false
 TRACE
-C:\Users\mark0\Documents\Visual Studio 2017\Projects\BSc_Thesis\BSc_Thesis\App.xaml
-11151548125
+C:\Users\mark0\source\repos\BSc_Thesis\BSc_Thesis\App.xaml
+6-1924183589
 
-6128997813
-14-35541203
-MainWindow.xaml;
+23-552647746
+341635666709
+ComCaptureView.xaml;gMapView.xaml;MainWindow.xaml;FileManagerView.xaml;PinControl.xaml;SoundReceiverView.xaml;
 
-True
+False
 
