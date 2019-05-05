@@ -90,8 +90,6 @@ namespace BSc_Thesis.ViewModels
             }
         }
       
-
-
         public ObservableCollection<string> PortNames {
             get => portNames;
             set {
