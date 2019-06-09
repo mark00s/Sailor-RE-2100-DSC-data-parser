@@ -8,5 +8,10 @@ namespace BSc_Thesis
         {
             InitializeComponent();
         }
+
+        private void ComCaptureView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
