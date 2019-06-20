@@ -8,7 +8,6 @@ using System.Management;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Windows;
-
 namespace BSc_Thesis.ViewModels
 {
     class ComCaptureViewModel : FileManagerViewModel
