@@ -3,17 +3,22 @@ using GMap.NET;
 using GMap.NET.ObjectModel;
 using GMap.NET.WindowsPresentation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace BSc_Thesis.ViewModels
 {
     class gMapViewModel : ViewModelBase
     {
+        private string resetPointName;
+        public string ResetPointName {
+            get => resetPointName; set {
+                if (resetPointName != value) {
+                    resetPointName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private ObservableCollection<GMapMarker> markersValue;
         public ObservableCollection<GMapMarker> Markers {
             get {
@@ -24,11 +29,13 @@ namespace BSc_Thesis.ViewModels
                 return markersValue;
             }
         }
-        public DelegateCommand AddPointCommand { get; }
+        public DelegateCommand ResetPointCommand { get; }
 
         //addMapMarker(53, 14);
         public gMapViewModel() {
             Services.MessengerHub.Subscribe<GeoMessage>(addPoint);
+            ResetPointName = "Reset Points";
+            ResetPointCommand = new DelegateCommand(ResetPoints);
         }
 
         public void addPoint(GeoMessage gm)
@@ -70,6 +77,13 @@ namespace BSc_Thesis.ViewModels
                 OnPropertyChanged("Markers");
             });
 
+
+        }
+
+        public void ResetPoints()
+        {
+            Markers.Clear();
+            OnPropertyChanged("Markers");
         }
     }
 }

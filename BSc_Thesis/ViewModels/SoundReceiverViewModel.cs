@@ -4,10 +4,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using BSc_Thesis.Models;
-using System.Diagnostics;
 
 namespace BSc_Thesis.ViewModels
 {

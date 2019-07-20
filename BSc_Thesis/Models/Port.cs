@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.IO.Ports;
-
-namespace BSc_Thesis.Models
+﻿namespace BSc_Thesis.Models
 {
     class Port
     {

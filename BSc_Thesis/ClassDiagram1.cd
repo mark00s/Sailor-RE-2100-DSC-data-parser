@@ -9,7 +9,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BSc_Thesis.ViewModels.DelegateCommand" BaseTypeListCollapsed="true">
-    <Position X="22.5" Y="1.75" Width="1.5" />
+    <Position X="20.75" Y="1.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAACAQQAAEUAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModels\DelegateCommand.cs</FileName>
@@ -17,21 +17,21 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="BSc_Thesis.Models.Port">
-    <Position X="19" Y="2.75" Width="1.5" />
+    <Position X="21" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAIAAAAAEAAAAgAAAAAAAAgAAAAAAAAACA=</HashCode>
       <FileName>Models\Port.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.App">
-    <Position X="19" Y="1.25" Width="1.5" />
+    <Position X="19" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.ComCaptureView" BaseTypeListCollapsed="true">
-    <Position X="20.75" Y="2.75" Width="1.5" />
+    <Position X="26.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAE=</HashCode>
       <FileName>ComCaptureView.xaml.cs</FileName>
@@ -39,7 +39,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="BSc_Thesis.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="22.5" Y="5.75" Width="1.5" />
+    <Position X="24.5" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
@@ -47,7 +47,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="BSc_Thesis.SoundReceiverView" BaseTypeListCollapsed="true">
-    <Position X="20.75" Y="1.25" Width="1.5" />
+    <Position X="26.25" Y="1.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SoundReceiverView.xaml.cs</FileName>
@@ -82,33 +82,33 @@
   <Class Name="BSc_Thesis.ViewModels.gMapViewModel">
     <Position X="7.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAAAAAAQAgAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <HashCode>AAAAABAAAAAAAAAAQEgAAABAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>ViewModels\gMapViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.Models.SoundData">
-    <Position X="20.75" Y="5" Width="1.5" />
+    <Position X="22.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BACAAAAAgAAEAAAAEAAAAAAAAAAAAAABAAgAAAAAAAA=</HashCode>
       <FileName>Models\SoundData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.Models.Services">
-    <Position X="24.25" Y="1.25" Width="1.5" />
+    <Position X="22.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Models\Services.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.Models.GeoMessage">
-    <Position X="24.25" Y="3.25" Width="1.5" />
+    <Position X="22.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\GeoMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BSc_Thesis.Models.DistressDataResolver">
-    <Position X="24.25" Y="5.5" Width="1.5" />
+    <Position X="19" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEIAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\DistressDataResolver.cs</FileName>
@@ -121,8 +121,16 @@
       <FileName>ViewModels\ComCaptureViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="BSc_Thesis.gMapView">
+    <Position X="24.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAEAACA=</HashCode>
+      <FileName>gMapView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="BSc_Thesis.Models.IFileManager">
-    <Position X="19" Y="5" Width="1.5" />
+    <Position X="26.25" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAQAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\IFileManager.cs</FileName>

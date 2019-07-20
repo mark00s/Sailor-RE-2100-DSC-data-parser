@@ -16,6 +16,6 @@
     </UserControl.DataContext>
     <Grid>
         <gmaps:GMapControl x:Name="mapView" Loaded="MapView_Loaded" ItemsSource="{Binding Markers}"/>
-        <Button Command="{Binding AddPointCommand}" Content="Button" HorizontalAlignment="Left" Margin="10,420,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding ResetPointCommand}" Content="{Binding ResetPointName}" HorizontalAlignment="Left" Margin="10,420,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </UserControl>
