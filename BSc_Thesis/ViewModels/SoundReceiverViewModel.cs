@@ -20,7 +20,6 @@ namespace BSc_Thesis.ViewModels
         private float timeout = 2.0f;
         private MMDevice selectedDevice;
         private SoundData sd = new SoundData();
-
         #endregion
 
         #region Properties
