@@ -13,5 +13,10 @@ namespace BSc_Thesis
         {
 
         }
+
+        private void SoundReceiverView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

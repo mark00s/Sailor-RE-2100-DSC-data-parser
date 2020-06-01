@@ -247,9 +247,9 @@ namespace BSc_Thesis.ViewModels
             using (var searcher = new ManagementObjectSearcher("SELECT * FROM WIN32_SerialPort")) {
                 string[] portnames = SerialPort.GetPortNames();
                 var x = searcher.Get().Cast<ManagementBaseObject>().ToList();
-                PortNames = new ObservableCollection<string>((from n in portnames join p in x on n
-                                                          equals p["DeviceID"].ToString() 
-                                                          into np select n ));
+                PortNames = new ObservableCollection<string>((
+                    from n in portnames join p in x on n equals p["DeviceID"].ToString() into np select n 
+                ));
             }
         }
     }

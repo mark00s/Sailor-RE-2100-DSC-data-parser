@@ -128,7 +128,7 @@ namespace BSc_Thesis.ViewModels
         }
         private void Record()
         {
-            startCapturing(false);
+            startCapturing();
         }
         private void Test()
         {
@@ -162,7 +162,7 @@ namespace BSc_Thesis.ViewModels
 
         private void GetDefaultRecordingFormat(MMDevice value)
         {
-            WasapiCapture c = value.DataFlow == DataFlow.Capture ? c = new WasapiCapture(value) : c = new WasapiLoopbackCapture(value);
+            WasapiCapture c = value.DataFlow == DataFlow.Capture ? new WasapiCapture(value) : new WasapiLoopbackCapture(value);
             SampleRate = c.WaveFormat.SampleRate;
             BitDepth = c.WaveFormat.BitsPerSample;
             ChannelCount = c.WaveFormat.Channels;
