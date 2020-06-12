@@ -16,6 +16,6 @@
         </Grid.ColumnDefinitions>
         <local:gMapView Grid.Column="0"/>
         <local:ComCaptureView Grid.Column="1"/>
-        <local:SoundReceiverView Grid.Column="2"/>
+        <local:SoundReceiverView Grid.Column="2" Loaded="SoundReceiverView_Loaded"/>
     </Grid>
 </Window>
