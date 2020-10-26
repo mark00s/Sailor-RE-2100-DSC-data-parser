@@ -134,8 +134,10 @@ namespace BSc_Thesis.ViewModels
         {
             port = new Port();
             OutputFolder = Path.Combine(Path.GetTempPath(), "BsC_Recordings");
+
             if (!Directory.Exists(OutputFolder))
                 Directory.CreateDirectory(OutputFolder);
+            
             RefreshPortsCommand = new DelegateCommand(refreshPorts);
             TurnListeningCommand = new DelegateCommand(turnListening);
             ClearLogCommand = new DelegateCommand(clearLog);
@@ -173,7 +175,7 @@ namespace BSc_Thesis.ViewModels
                 sp.Close();
                 resolverTimer.Enabled = false;
             }
-            IsPortActive = sp.IsOpen ? true : false;
+            IsPortActive = sp.IsOpen;
         }
 
         private void writeTextToFile(string text)

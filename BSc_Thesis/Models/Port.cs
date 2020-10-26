@@ -7,6 +7,5 @@
         public string ParityValue { get; set; }
         public bool Active { get; set; }
         public int DataBits { get; set; } = 8;
-        public string PortName { get; set; }
     }
 }
