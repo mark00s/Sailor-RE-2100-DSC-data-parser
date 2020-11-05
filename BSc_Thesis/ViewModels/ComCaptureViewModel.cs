@@ -167,12 +167,12 @@ namespace BSc_Thesis.ViewModels
                     sp.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                     sp.Open();
                     resolverTimer.Enabled = true;
-
                 } catch (Exception e) {
                     MessageBox.Show(e.Message);
                 }
             } else if (sp.IsOpen) {
                 sp.Close();
+                comPortTemp = String.Empty;
                 resolverTimer.Enabled = false;
             }
             IsPortActive = sp.IsOpen;
@@ -195,13 +195,11 @@ namespace BSc_Thesis.ViewModels
                 var regexResult = messageRegex.Match(comPortTemp);
                 if (!regexResult.Success)
                     break;
-                if (comPortTemp.Length > regexResult.Index + regexResult.Length + 1) {
-                    comPortTemp = string.Empty;
-                } else {
-                    comPortTemp = comPortTemp.Substring(regexResult.Index + regexResult.Length + 1);
-                }
+                comPortTemp = comPortTemp.Substring(regexResult.Index + regexResult.Length + 1);
+                
                 string[] m = regexResult.Value.Replace("\r", "").Split('\n');
                 string result = string.Empty;
+                
                 foreach (string s in m) {
                     if (s != string.Empty && !s.Contains('>')) {
                         if (s.Contains('=')) {
