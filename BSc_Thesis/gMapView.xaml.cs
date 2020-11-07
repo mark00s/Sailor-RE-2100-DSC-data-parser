@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
+﻿using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using BSc_Thesis.ViewModels;
 using GMap.NET;
 using GMap.NET.WindowsPresentation;
 
@@ -28,7 +22,7 @@ namespace BSc_Thesis
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
+            GMaps.Instance.Mode = AccessMode.ServerAndCache;
             mapView.IgnoreMarkerOnMouseWheel = true;
             mapView.ShowCenter = false;
             mapView.MinZoom = 2;

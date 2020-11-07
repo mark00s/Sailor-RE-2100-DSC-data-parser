@@ -9,7 +9,7 @@
     <Grid>
         <Image Width="20">
             <Image.Source>
-                <BitmapImage DecodePixelWidth="300" UriSource="/Resources/Images/gMapsPin.png"/>
+                <BitmapImage UriSource="/Resources/Images/gMapsPin.png"/>
             </Image.Source>
         </Image>
     </Grid>

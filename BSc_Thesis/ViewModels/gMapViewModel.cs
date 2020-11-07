@@ -31,7 +31,6 @@ namespace BSc_Thesis.ViewModels
         }
         public DelegateCommand ResetPointCommand { get; }
 
-        //addMapMarker(53, 14);
         public gMapViewModel() {
             Services.MessengerHub.Subscribe<GeoMessage>(addPoint);
             ResetPointName = "Reset Points";
@@ -46,7 +45,6 @@ namespace BSc_Thesis.ViewModels
             if (gm.Lat.Split('N').Length == 2) {
                 // N => +
                 string[] lat = gm.Lat.Split('N');
-                la = Double.Parse(lat[0]);
                 la = Double.Parse(lat[0]) + (Double.Parse(lat[1]) / 60.0);
 
             } else {
@@ -58,9 +56,7 @@ namespace BSc_Thesis.ViewModels
             if (gm.Long.Split('E').Length == 2) {
                 // E => +
                 string[] lon = gm.Long.Split('E');
-                lo = Double.Parse(lon[0]);
                 lo = Double.Parse(lon[0]) + (Double.Parse(lon[1]) / 60.0);
-
             } else {
                 // W => -
                 string[] lon = gm.Long.Split('W');
@@ -70,14 +66,13 @@ namespace BSc_Thesis.ViewModels
             if (markersValue.Count == 0) {
                 markersValue = new ObservableCollection<GMapMarker>();
             }
+
             Application.Current.Dispatcher.Invoke((Action) delegate {
                 GMapMarker gmm = new GMapMarker(new PointLatLng(la, lo));
                 gmm.Shape = new PinControl();
                 Markers.Add(gmm);
                 OnPropertyChanged("Markers");
             });
-
-
         }
 
         public void ResetPoints()
