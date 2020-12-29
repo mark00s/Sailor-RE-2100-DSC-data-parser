@@ -21,7 +21,7 @@ namespace BSc_Thesis
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
+            mapView.MapProvider = GMap.NET.MapProviders.OpenSeaMapHybridProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerAndCache;
             mapView.IgnoreMarkerOnMouseWheel = true;
             mapView.ShowCenter = false;
